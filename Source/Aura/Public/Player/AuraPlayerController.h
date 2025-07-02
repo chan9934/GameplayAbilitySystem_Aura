@@ -9,6 +9,11 @@
 /**
  * 
  */
+class UInputMappingContext;
+class UInputAction;
+class IEnemyInterface;
+struct FInputActionValue;
+
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {
@@ -20,12 +25,17 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void PlayerTick(float DeltaTime) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
-	TObjectPtr<class UInputMappingContext> AuraContext;
+	TObjectPtr<UInputMappingContext> AuraContext;
 	UPROPERTY(EditAnywhere, Category = "Input")
-	TObjectPtr<class UInputAction> MoveAction;
+	TObjectPtr<UInputAction> MoveAction;
 
-	void Move(const struct FInputActionValue& InputActionValue);
+	void Move(const FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+	TScriptInterface<IEnemyInterface>LastActor;
+	TScriptInterface<IEnemyInterface>ThisActor;
 };
