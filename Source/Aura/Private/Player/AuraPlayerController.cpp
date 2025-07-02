@@ -16,10 +16,10 @@ void AAuraPlayerController::BeginPlay()
 
 	check(AuraContext);
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
-		GetLocalPlayer());
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	check(Subsystem);
-
+	Subsystem->AddMappingContext(AuraContext, 0);
+	
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
@@ -50,5 +50,5 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	const FVector RightVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 	ControlledPawn->AddMovementInput(ForwardVector, InputAxisVector.Y);
-	ControlledPawn->AddMovementInput(ForwardVector, InputAxisVector.X);
+	ControlledPawn->AddMovementInput(RightVector, InputAxisVector.X);
 }
