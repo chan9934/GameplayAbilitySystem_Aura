@@ -8,26 +8,27 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	
+
 	SpringArm->SetupAttachment(GetCapsuleComponent());
 	Camera->SetupAttachment(SpringArm);
 
 	// TopDown 방식 셋팅
-	 GetCharacterMovement()->bOrientRotationToMovement = true;
-	 GetCharacterMovement()->RotationRate = FRotator(0, 400.f, 0);
-	 GetCharacterMovement()->bConstrainToPlane = true;
-	 GetCharacterMovement()->bSnapToPlaneAtStart = true;
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0, 400.f, 0);
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-	
 }
 
 void AAuraCharacter::PossessedBy(AController* NewController)
@@ -54,4 +55,11 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 	AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+	AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>();
+	if (AuraPlayerController)
+	{
+		AAuraHUD* AuraHUD = AuraPlayerController->GetHUD<AAuraHUD>();
+		if (AuraHUD)
+			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AttributeSet, AbilitySystemComponent);
+	}
 }
