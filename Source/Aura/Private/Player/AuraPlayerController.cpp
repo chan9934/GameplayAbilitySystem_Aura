@@ -31,6 +31,7 @@ void AAuraPlayerController::BeginPlay()
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
 	SetInputMode(InputMode);
+	ShowDebug();
 }
 
 void AAuraPlayerController::SetupInputComponent()
@@ -123,6 +124,6 @@ void AAuraPlayerController::ShowDebug()
 {
 	if (IsLocalController())
 	{
-		GetWorld()->Exec(GetWorld(), TEXT("ShowDebug AbilitySystem"));
+		ConsoleCommand(TEXT("showdebug AbilitySystem"), true);
 	}
 }
