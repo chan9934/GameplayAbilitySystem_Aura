@@ -118,3 +118,11 @@ void AAuraPlayerController::CursorTrace()
 		}
 	}
 }
+
+void AAuraPlayerController::ShowDebug()
+{
+	if (IsLocalController())
+	{
+		GetWorld()->Exec(GetWorld(), TEXT("ShowDebug AbilitySystem"));
+	}
+}

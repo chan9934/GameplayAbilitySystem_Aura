@@ -6,6 +6,8 @@
 #include "Character/AuraCharacterBase.h"
 #include "AuraCharacter.generated.h"
 
+class UGameplayEffect;
+
 /**
  * 
  */
@@ -27,6 +29,6 @@ protected:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
-protected:
 	virtual void InitAbilityActorInfo()override;
+
 };
