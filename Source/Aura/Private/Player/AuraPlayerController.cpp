@@ -31,7 +31,7 @@ void AAuraPlayerController::BeginPlay()
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
 	SetInputMode(InputMode);
-	ShowDebug();
+	//ShowDebug();
 }
 
 void AAuraPlayerController::SetupInputComponent()

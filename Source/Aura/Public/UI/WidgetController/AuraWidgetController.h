@@ -27,9 +27,9 @@ struct FWidgetControllerParams
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TObjectPtr<APlayerState> PlayerState = nullptr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
 };
 
 UCLASS()
@@ -39,6 +39,7 @@ class AURA_API UAuraWidgetController : public UObject
 public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WidgetControllerParams);
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
 protected:
