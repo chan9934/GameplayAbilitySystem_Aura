@@ -26,4 +26,7 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UAttributeInfo* AttributeInfo;
+
+private:
+	void BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const;
 };
