@@ -7,6 +7,17 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAttributeSet.generated.h"
 
+// typedef is specific to the FGameplayAttribute() signature, but TStaticFunPtr is generic to any signature chosen
+// typedef FGameplayAttribute(*FAttributeFuncPtr)(void);
+
+// Replaced Unreal's delegate-based function pointer type with a plain C++ function pointer
+// This is simpler and sufficient for storing static function references
+// Avoids dependency on TBaseStaticDelegateInstance and delegate policies
+// template<typename T>
+// using TStaticFuncPtr = TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;template<typename T>
+template<typename RetValType, typename... ParamTypes >
+using TStaticFuncPtr = RetValType(*)(ParamTypes...);
+
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
@@ -54,7 +65,7 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
-	TMap<FGameplayTag, FAttributeSignature>TagsToAttributes;
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute>>TagsToAttributes;
 	/*
 	 * Primary Attributes
 	 */
