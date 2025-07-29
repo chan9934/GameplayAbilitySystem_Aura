@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class UAuraAbilitySystemComponent;
 class UAuraInputConfig;
 /**
  * 
@@ -48,4 +49,9 @@ private:
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UAuraInputConfig* InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
 };
