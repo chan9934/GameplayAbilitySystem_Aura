@@ -18,7 +18,6 @@
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
-
 	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
 }
 
@@ -30,8 +29,7 @@ void AAuraPlayerController::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
 		GetLocalPlayer());
-	if (Subsystem)
-		Subsystem->AddMappingContext(AuraContext, 0);
+	if (Subsystem)Subsystem->AddMappingContext(AuraContext, 0);
 
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
@@ -41,7 +39,6 @@ void AAuraPlayerController::BeginPlay()
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
 	SetInputMode(InputMode);
-	//ShowDebug();
 }
 
 void AAuraPlayerController::SetupInputComponent()
@@ -73,10 +70,7 @@ void AAuraPlayerController::AutoRun()
 		ControlledPawn->AddMovementInput(Direction);
 
 		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
-		if (DistanceToDestination <= AutoRunAcceptanceRadius)
-		{
-			bAutoRunning = false;
-		}
+		if (DistanceToDestination <= AutoRunAcceptanceRadius) bAutoRunning = false;
 	}
 }
 
@@ -97,66 +91,15 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit)return;
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
-	/*
-	 * Line trace from cursor. There are several Scenarios:
-	 *  A. Both Actors are null
-	 *		- Do nothing
-	 *	B. LastActor is null && ThisActor is valid
-	 *		- Highlight ThisActor
-	 *	C. LastActor is valid && ThisActor is null
-	 *		- UnHightLight LastActor
-	 *	D. Both Actors are valid, ThisActor != LastActor
-	 *		- UnHighLight, LastActor and HightLight ThisActor
-	 *	E. Both Actors are valid, ThisActor == LastActor
-	 *		- Do nothing
-	 */
-
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
-		{
-			// Case B
-			ThisActor->HighlightActor();
-		}
-		else
-		{
-			// Case A
-		}
-	}
-	else
-	{
-		if (ThisActor == nullptr)
-		{
-			// Case C
-			LastActor->UnHighlightActor();
-		}
-		else
-		{
-			if (ThisActor != LastActor)
-			{
-				// Case D
-				LastActor->UnHighlightActor();
-				ThisActor->HighlightActor();
-			}
-			else
-			{
-				// Case E
-			}
-		}
-	}
-}
-
-void AAuraPlayerController::ShowDebug()
-{
-	if (IsLocalController())
-	{
-		ConsoleCommand(TEXT("showdebug AbilitySystem"), true);
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->HighlightActor();
 	}
 }
 
@@ -174,8 +117,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || bTargeting)
 	{
-		if (!IsValid(GetASC())) return;
-		GetASC()->AbilityInputTagReleased(InputTag);
+		if (IsValid(GetASC()))GetASC()->AbilityInputTagReleased(InputTag);
 		return;
 	}
 	APawn* ControlledPawn = GetPawn();
@@ -188,7 +130,6 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			for (const FVector& PointLoc : NavPath->PathPoints)
 			{
 				Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-				DrawDebugSphere(GetWorld(), PointLoc, 8.0f, 8, FColor::Green, false, 5.f);
 			}
 			CachedDestination = NavPath->PathPoints.Last();
 			bAutoRunning = true;
@@ -200,16 +141,11 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || bTargeting)
 	{
-		if (!IsValid(GetASC())) return;
-		GetASC()->AbilityInputTagHeld(InputTag);
+		if (IsValid(GetASC()))GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
 	bAutoRunning = false;
-	FHitResult Hit;
-	if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
-	{
-		CachedDestination = Hit.ImpactPoint;
-	}
+	if (CursorHit.bBlockingHit)CachedDestination = CursorHit.ImpactPoint;
 	if (APawn* ControlledPawn = GetPawn())
 	{
 		const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
