@@ -127,12 +127,15 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			this, ControlledPawn->GetActorLocation(), CachedDestination))
 		{
 			Spline->ClearSplinePoints();
-			for (const FVector& PointLoc : NavPath->PathPoints)
+			if (!NavPath->PathPoints.IsEmpty())
 			{
-				Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				for (const FVector& PointLoc : NavPath->PathPoints)
+				{
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				}
+				CachedDestination = NavPath->PathPoints.Last();
+				bAutoRunning = true;
 			}
-			CachedDestination = NavPath->PathPoints.Last();
-			bAutoRunning = true;
 		}
 	}
 }
