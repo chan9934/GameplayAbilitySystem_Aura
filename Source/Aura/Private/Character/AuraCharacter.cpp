@@ -19,6 +19,7 @@ AAuraCharacter::AAuraCharacter()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 
 	SpringArm->SetupAttachment(GetCapsuleComponent());
+	SpringArm->bDoCollisionTest = false;
 	Camera->SetupAttachment(SpringArm);
 
 	// TopDown 방식 셋팅
