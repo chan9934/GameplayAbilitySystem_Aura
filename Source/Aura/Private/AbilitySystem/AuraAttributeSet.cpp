@@ -81,17 +81,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0, GetMaxHealth()));
-		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue,
-		// 								 FString::Printf(
-		// 									 TEXT("Before HealthValue BaseValue: %f,  CurrentValue: %f"),
-		// 									 Data.EvaluatedData.Attribute.GetGameplayAttributeData(this)->GetBaseValue(),
-		// 									 Data.EvaluatedData.Attribute.GetGameplayAttributeData(this)->GetCurrentValue()));
-		// SetHealth(FMath::Clamp(GetHealth(), 0, GetMaxHealth()));
-		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-		// 								 FString::Printf(
-		// 									 TEXT("After HealthValue BaseValue: %f,  CurrentValue: %f"),
-		// 									 Data.EvaluatedData.Attribute.GetGameplayAttributeData(this)->GetBaseValue(),
-		// 									 Data.EvaluatedData.Attribute.GetGameplayAttributeData(this)->GetCurrentValue()));
+		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health : %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
