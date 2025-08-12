@@ -81,7 +81,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TArray<TSubclass
 	for (auto GameplayEffectClass : GameplayEffectClasses)
 	{
 		const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(
-			GameplayEffectClass, 1.f, EffectContextHandle);
+			GameplayEffectClass, ActorLevel, EffectContextHandle);
 		const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 		if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
