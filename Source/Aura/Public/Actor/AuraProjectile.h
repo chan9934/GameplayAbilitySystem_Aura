@@ -44,4 +44,7 @@ private:
 	TObjectPtr<USoundBase> LoopingSound;
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent ;
+	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TSubclassOf<UGameplayAbility> HitReactAbility;
 };
