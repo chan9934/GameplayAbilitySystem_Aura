@@ -25,11 +25,15 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die()override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<class USkeletalMeshComponent> Weapon;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;

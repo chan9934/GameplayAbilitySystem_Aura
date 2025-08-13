@@ -31,6 +31,7 @@ public:
 	
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;
+	virtual void Die()override;
 	/** end Combat Interface */
 
 	UPROPERTY(BlueprintAssignable)
@@ -45,6 +46,8 @@ public:
 	bool bHitReacting = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 250.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
+	float LifeSpan;
 
 protected:
 	virtual void InitAbilityActorInfo()override;
