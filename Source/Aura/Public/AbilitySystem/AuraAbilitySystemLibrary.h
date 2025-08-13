@@ -21,4 +21,6 @@ public:
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetcontroller(const UObject* WorldContextObject);
 	UFUNCTION(BlueprintCallable, meta = (WorldContext = WorldContextObject), Category = "AuraAbilitySystem|CharacterClassDefaults")
 	static void InitializeDefaultAttribute(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
+	UFUNCTION(BlueprintCallable, meta = (WorldContext = WorldContextObject), Category = "AuraAbilitySystem|CharacterClassDefaults")
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 };
