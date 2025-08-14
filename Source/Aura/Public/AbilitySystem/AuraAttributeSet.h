@@ -37,21 +37,21 @@ struct AURA_API FEffectProperties
 	UPROPERTY()
 	FGameplayEffectContextHandle EffectContextHandle;
 	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> SourceASC = nullptr;
+	TWeakObjectPtr<UAbilitySystemComponent> SourceASC = nullptr;
 	UPROPERTY()
-	TObjectPtr<AActor> SourceAvatarActor = nullptr;
+	TWeakObjectPtr<AActor> SourceAvatarActor = nullptr;
 	UPROPERTY()
-	TObjectPtr<AController> SourceController = nullptr;
+	TWeakObjectPtr<AController> SourceController = nullptr;
 	UPROPERTY()
-	TObjectPtr<ACharacter> SourceCharacter = nullptr;
+	TWeakObjectPtr<ACharacter> SourceCharacter = nullptr;
 	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> TargetASC = nullptr;
+	TWeakObjectPtr<UAbilitySystemComponent> TargetASC = nullptr;
 	UPROPERTY()
-	TObjectPtr<AActor> TargetAvatarActor = nullptr;
+	TWeakObjectPtr<AActor> TargetAvatarActor = nullptr;
 	UPROPERTY()
-	TObjectPtr<AController> TargetController = nullptr;
+	TWeakObjectPtr<AController> TargetController = nullptr;
 	UPROPERTY()
-	TObjectPtr<ACharacter> TargetCharacter = nullptr;
+	TWeakObjectPtr<ACharacter> TargetCharacter = nullptr;
 };
 
 UCLASS()
@@ -169,5 +169,6 @@ public:
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
+	void ShowFloatingText(const FEffectProperties& Props, float Damage)const;
 
 };
