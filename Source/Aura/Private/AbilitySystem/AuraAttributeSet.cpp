@@ -116,6 +116,10 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			ShowFloatingText(Props, LocalIncomingDamage);
 		}
 	}
+	if (Data.EvaluatedData.Attribute == GetArmorAttribute())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Changed Armor on %s, Armor : %f"), *Props.TargetAvatarActor->GetName(), GetArmor());
+	}
 }
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
