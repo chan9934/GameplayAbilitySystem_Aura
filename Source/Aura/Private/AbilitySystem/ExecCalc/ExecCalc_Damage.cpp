@@ -68,7 +68,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// Get Damage Set by Caller Magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
+	float Damage = 0.f;
+
+	for (const auto& Pair : FAuraGameplayTags::Get().DamageTypesToResistance)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+		Damage += DamageTypeValue;
+	}
 
 	// Capture BlockChange on Target, and determine if there was a successful Block
 	// if Block, halve the damage.
@@ -79,9 +85,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
 
-	FGameplayEffectContextHandle EffectContextHandle =  Spec.GetContext();
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
-	
+
 	// if Block, halve the damage.
 	Damage = bBlocked ? Damage / 2 : Damage;
 
@@ -134,7 +140,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const FRealCurve* CriticalHitResistanceCurve = CharacterClassInfo->DamageCalculationCoefficients->FindCurve(
 		FName("CriticalHitResistance"), FString());
-	const float CriticalHitResistanceConefficient = CriticalHitResistanceCurve->Eval(TargetCombatInterface->GetPlayerLevel());
+	const float CriticalHitResistanceConefficient = CriticalHitResistanceCurve->Eval(
+		TargetCombatInterface->GetPlayerLevel());
 
 	// Critical Hit Resistance reduces Critical Hit Change by a certain percentage
 	const float EffectiveCriticalHitChange = SourceCriticalHitChange - TargetCriticalHitResistance *
@@ -142,7 +149,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Double damage plus a bonus if critical hit
 	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChange;
 	UAuraAbilitySystemLibrary::SetIsCriticaldHit(EffectContextHandle, bCriticalHit);
-	
+
 	Damage = bCriticalHit ? ((Damage) * 2 + SourceCriticalHitDamage) : Damage;
 
 

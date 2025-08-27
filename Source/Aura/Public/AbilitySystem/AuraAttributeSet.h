@@ -129,9 +129,30 @@ public:
 	/*
 	 * Meta Attributes
 	 */
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage)
+
+	/*
+	 *  Resistance Attributes
+	 */
+	 
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Fire)
+	FGameplayAttributeData Resistance_Fire;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Fire)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Lighting)
+	FGameplayAttributeData Resistance_Lighting;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Lighting)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Arcane)
+	FGameplayAttributeData Resistance_Arcane;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Arcane)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Physical)
+	FGameplayAttributeData Resistance_Physical;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Physical)
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -167,6 +188,15 @@ public:
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+	UFUNCTION()
+	void OnRep_Resistance_Fire(const FGameplayAttributeData& OldResistance_Fire) const;
+	UFUNCTION()
+	void OnRep_Resistance_Lighting(const FGameplayAttributeData& OldResistance_Lighting) const;
+	UFUNCTION()
+	void OnRep_Resistance_Arcane(const FGameplayAttributeData& OldResistance_Arcane) const;
+	UFUNCTION()
+	void OnRep_Resistance_Physical(const FGameplayAttributeData& OldResistance_Physical) const;
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
 	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit)const;
