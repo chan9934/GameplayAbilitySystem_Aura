@@ -139,20 +139,20 @@ public:
 	 */
 	 
 	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Fire)
-	FGameplayAttributeData Resistance_Fire;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Fire)
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance)
 	
 	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Lighting)
-	FGameplayAttributeData Resistance_Lighting;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Lighting)
+	FGameplayAttributeData LightingResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightingResistance)
 	
 	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Arcane)
-	FGameplayAttributeData Resistance_Arcane;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Arcane)
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance)
 	
 	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Physical)
-	FGameplayAttributeData Resistance_Physical;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resistance_Physical)
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance)
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -190,13 +190,13 @@ public:
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
 	UFUNCTION()
-	void OnRep_Resistance_Fire(const FGameplayAttributeData& OldResistance_Fire) const;
+	void OnRep_Resistance_Fire(const FGameplayAttributeData& OldResistanceFire) const;
 	UFUNCTION()
-	void OnRep_Resistance_Lighting(const FGameplayAttributeData& OldResistance_Lighting) const;
+	void OnRep_Resistance_Lighting(const FGameplayAttributeData& OldResistanceLighting) const;
 	UFUNCTION()
-	void OnRep_Resistance_Arcane(const FGameplayAttributeData& OldResistance_Arcane) const;
+	void OnRep_Resistance_Arcane(const FGameplayAttributeData& OldResistanceArcane) const;
 	UFUNCTION()
-	void OnRep_Resistance_Physical(const FGameplayAttributeData& OldResistance_Physical) const;
+	void OnRep_Resistance_Physical(const FGameplayAttributeData& OldResistancePhysical) const;
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
 	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit)const;
