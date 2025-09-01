@@ -8,11 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778c3f77-124c-4a8d-aadf-19f54eb64290" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BB_EnemyBlackboard.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BB_EnemyBlackboard.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BTS_FindNearestPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BTS_FindNearestPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BTT_Attack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BTT_Attack.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BT_EnemyBehaviorTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BT_EnemyBehaviorTree.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Character/AuraEnemy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Character/AuraEnemy.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +31,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/AIModule/Private/AIController.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Engine/Classes/Animation/AnimInstance.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Engine/Private/UnrealEngine.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/NavigationSystem/Private/NavigationSystem.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -295,7 +294,7 @@
       <workItem from="1756459697851" duration="3347000" />
       <workItem from="1756526426948" duration="4465000" />
       <workItem from="1756607947927" duration="2090000" />
-      <workItem from="1756719104714" duration="910000" />
+      <workItem from="1756719104714" duration="1723000" />
     </task>
     <servers />
   </component>
