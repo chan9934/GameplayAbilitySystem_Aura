@@ -8,9 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="778c3f77-124c-4a8d-aadf-19f54eb64290" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BB_EnemyBlackboard.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BB_EnemyBlackboard.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BTT_Attack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BTT_Attack.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BT_EnemyBehaviorTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BT_EnemyBehaviorTree.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/BehaviorTree/BT_EnemyBehaviorTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/BehaviorTree/BT_EnemyBehaviorTree.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/EQS/EQ_FindTargetRangedAttackPosition.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/EQS/EQ_FindTargetRangedAttackPosition.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AI/Tasks/BTT_Attack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AI/Tasks/BTT_Attack.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/EQS_TestingMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/EQS_TestingMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -294,7 +297,7 @@
       <workItem from="1756459697851" duration="3347000" />
       <workItem from="1756526426948" duration="4465000" />
       <workItem from="1756607947927" duration="2090000" />
-      <workItem from="1756719104714" duration="1723000" />
+      <workItem from="1756719104714" duration="3473000" />
     </task>
     <servers />
   </component>
