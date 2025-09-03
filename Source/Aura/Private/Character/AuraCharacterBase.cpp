@@ -63,6 +63,7 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
+	check(!WeaponTipSocketName.IsNone());
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 
