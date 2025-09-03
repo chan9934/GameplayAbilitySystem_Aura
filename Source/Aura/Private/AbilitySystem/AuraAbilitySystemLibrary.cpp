@@ -89,7 +89,7 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
 	const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 	for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
 	{
-		if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
 		{
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
 			ASC->GiveAbility(AbilitySpec);
@@ -140,5 +140,35 @@ void UAuraAbilitySystemLibrary::SetIsCriticaldHit(FGameplayEffectContextHandle& 
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		AuraContext->SetIsCriticalHit(bInIsCriticaldHit);
+	}
+}
+
+void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject,
+                                                          TArray<AActor*>& OutOverlappingActors,
+                                                          const TArray<AActor*>& ActorsToIgnore, float Radius,
+                                                          const FVector& SphereOrigin)
+{
+	FCollisionQueryParams SphereParams;
+
+	SphereParams.AddIgnoredActors(ActorsToIgnore);
+
+	TArray<FOverlapResult> Overlaps;
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject,
+	                                                             EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity,
+		                                FCollisionObjectQueryParams(
+			                                FCollisionObjectQueryParams::InitType::AllDynamicObjects),
+		                                FCollisionShape::MakeSphere(Radius), SphereParams);
+
+		for (const FOverlapResult& OverlapResult : Overlaps)
+		{
+			AActor* OverlapActor = OverlapResult.GetActor();
+			if (!IsValid(OverlapActor)
+				|| !OverlapActor->Implements<UCombatInterface>()
+				|| ICombatInterface::Execute_IsDead(OverlapActor))
+				continue;
+			OutOverlappingActors.Add(ICombatInterface::Execute_GetActor(OverlapActor));
+		}
 	}
 }
