@@ -107,6 +107,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		if (LocalIncomingDamage > 0)
 		{
 			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			UE_LOG(LogTemp, Warning, TEXT("NewHealth : %f"), NewHealth);
 			SetHealth(FMath::Clamp(NewHealth, 0, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
@@ -167,9 +168,13 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit)const
 {
-	if (Props.SourceCharacter != Props.TargetCharacter)
+	ACharacter* CharacterToCheck = (Props.SourceCharacter.IsValid() && Props.SourceCharacter != Props.TargetCharacter) 
+		? Props.SourceCharacter.Get() 
+		: Props.TargetCharacter.Get();
+
+	if (CharacterToCheck)
 	{
-		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.SourceCharacter->GetController()))
+		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(CharacterToCheck->GetController()))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter.Get(), bBlockedHit, bCriticalHit);
 		}
