@@ -70,6 +70,13 @@ public:
 	 * Effect
 	 */
 	FGameplayTag Effects_HitReact;
+	
+	/*
+	 * Montage
+	 */
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_LeftHand;
+	FGameplayTag Montage_Attack_RightHand;
 
 private:
 	static FAuraGameplayTags GameplayTags;
