@@ -37,8 +37,9 @@ class AURA_API ICombatInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual int32 GetPlayerLevel();
+	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetCombatSocketLocation();
+	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag);
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "MotionWarnping")
 	void UpdateFacingTarget(const FVector& Target);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
