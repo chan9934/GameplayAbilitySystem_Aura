@@ -41,7 +41,9 @@ protected:
 	void ApplyEffectToTarget(AActor* TargetActor, TArray<TSubclassOf<UGameplayEffect>> GameplayEffectClasses);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applided Effects")
-	bool bDestroyOnEffectRemoval = false;
+	bool bDestroyOnEffectApplication = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applided Effects")
+	bool bApplyEffectsToEnemies = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applided Effects")
 	TArray<TSubclassOf<UGameplayEffect>> InstantGameplayEffectClasses;

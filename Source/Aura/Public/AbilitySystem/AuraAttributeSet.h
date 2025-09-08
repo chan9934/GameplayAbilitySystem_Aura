@@ -37,21 +37,21 @@ struct AURA_API FEffectProperties
 	UPROPERTY()
 	FGameplayEffectContextHandle EffectContextHandle;
 	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> SourceASC = nullptr;
+	TWeakObjectPtr<UAbilitySystemComponent> SourceASC = nullptr;
 	UPROPERTY()
-	TObjectPtr<AActor> SourceAvatarActor = nullptr;
+	TWeakObjectPtr<AActor> SourceAvatarActor = nullptr;
 	UPROPERTY()
-	TObjectPtr<AController> SourceController = nullptr;
+	TWeakObjectPtr<AController> SourceController = nullptr;
 	UPROPERTY()
-	TObjectPtr<ACharacter> SourceCharacter = nullptr;
+	TWeakObjectPtr<ACharacter> SourceCharacter = nullptr;
 	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> TargetASC = nullptr;
+	TWeakObjectPtr<UAbilitySystemComponent> TargetASC = nullptr;
 	UPROPERTY()
-	TObjectPtr<AActor> TargetAvatarActor = nullptr;
+	TWeakObjectPtr<AActor> TargetAvatarActor = nullptr;
 	UPROPERTY()
-	TObjectPtr<AController> TargetController = nullptr;
+	TWeakObjectPtr<AController> TargetController = nullptr;
 	UPROPERTY()
-	TObjectPtr<ACharacter> TargetCharacter = nullptr;
+	TWeakObjectPtr<ACharacter> TargetCharacter = nullptr;
 };
 
 UCLASS()
@@ -126,6 +126,33 @@ public:
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana)
 
+	/*
+	 * Meta Attributes
+	 */
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage)
+
+	/*
+	 *  Resistance Attributes
+	 */
+	 
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Fire)
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Lighting)
+	FGameplayAttributeData LightingResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightingResistance)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Arcane)
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance)
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, ReplicatedUsing = OnRep_Resistance_Physical)
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance)
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -161,7 +188,17 @@ public:
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+	UFUNCTION()
+	void OnRep_Resistance_Fire(const FGameplayAttributeData& OldResistanceFire) const;
+	UFUNCTION()
+	void OnRep_Resistance_Lighting(const FGameplayAttributeData& OldResistanceLighting) const;
+	UFUNCTION()
+	void OnRep_Resistance_Arcane(const FGameplayAttributeData& OldResistanceArcane) const;
+	UFUNCTION()
+	void OnRep_Resistance_Physical(const FGameplayAttributeData& OldResistancePhysical) const;
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)const;
+	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit)const;
 
 };
