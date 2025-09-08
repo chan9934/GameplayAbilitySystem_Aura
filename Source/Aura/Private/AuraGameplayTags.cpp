@@ -79,11 +79,20 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Attack"), TEXT("Attack Ability Tag"));
 
 	/*
-	 * Montage
+	 * Combat Sockets
 	 */
 	
-	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.Weapon"), TEXT("Weapon"));
-	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.LeftHand"), TEXT("Left Hand"));
-	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.RightHand"), TEXT("Right Hand"));
+	GameplayTags.CombatSocket_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("CombatSocket.Weapon"), TEXT("Weapon"));
+	GameplayTags.CombatSocket_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("CombatSocket.LeftHand"), TEXT("Left Hand"));
+	GameplayTags.CombatSocket_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("CombatSocket.RightHand"), TEXT("Right Hand"));
+	
+	/*
+	 * Montages
+	 */
+	
+	GameplayTags.Montage_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.1"), TEXT("Attack 1"));
+	GameplayTags.Montage_Attack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.2"), TEXT("Attack 2"));
+	GameplayTags.Montage_Attack_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.3"), TEXT("Attack 3"));
+	GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Montage.Attack.4"), TEXT("Attack 4"));
 	
 }
