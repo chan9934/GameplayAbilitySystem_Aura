@@ -8,7 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b3d2b2a-4e98-43f4-a8a5-b48b84a5a67c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/Assets/Sounds/Enemies/Ghoul/Swipe/sfx_Swipe.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_MeleeAttack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/AbilitySystem/Enemy/Abilities/GA_MeleeAttack.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Character/Aura/BP_AuraCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Character/Aura/BP_AuraCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Character/BP_EnemyBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Character/BP_EnemyBase.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Character/Goblin_Spear/BP_Goblin_Spear.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Character/Goblin_Spear/BP_Goblin_Spear.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Character/AuraCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Character/AuraCharacterBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Character/AuraCharacterBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Character/AuraCharacterBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Interaction/CombatInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Interaction/CombatInterface.h" afterDir="false" />
@@ -234,7 +239,7 @@
       <workItem from="1757061959486" duration="2811000" />
       <workItem from="1757150136670" duration="6195000" />
       <workItem from="1757215632323" duration="2984000" />
-      <workItem from="1757288648758" duration="3538000" />
+      <workItem from="1757288648758" duration="4141000" />
     </task>
     <servers />
   </component>
