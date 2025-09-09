@@ -28,13 +28,13 @@ protected:
 	                     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<USphereComponent> Sphere;
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 15.f;
 	bool bHit = false;
-	UPROPERTY(VisibleDefaultsOnly)
-	TObjectPtr<USphereComponent> Sphere;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;
