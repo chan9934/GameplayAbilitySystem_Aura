@@ -19,7 +19,7 @@ AAuraProjectile::AAuraProjectile()
 
 		RootComponent = Sphere;
 	Sphere->SetCollisionObjectType(ECC_Projectile);
-	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
@@ -37,6 +37,12 @@ void AAuraProjectile::BeginPlay()
 	SetLifeSpan(LifeSpan);
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent);
+	FTimerHandle SetCollisionHandle;
+	GetWorld()->GetTimerManager().SetTimer(SetCollisionHandle, [this]()
+	{
+	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	},
+	0.1f, false);
 }
 
 void AAuraProjectile::Destroyed()
