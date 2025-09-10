@@ -150,6 +150,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					DrawDebugSphere(GetWorld(), PointLoc, 5, 12, FColor::White, false, 3.f );
 				}
 				CachedDestination = NavPath->PathPoints.Last();
 				bAutoRunning = true;
