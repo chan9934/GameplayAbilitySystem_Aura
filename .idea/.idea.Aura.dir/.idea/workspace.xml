@@ -9,6 +9,15 @@
   <component name="ChangeListManager">
     <list default="true" id="6b3d2b2a-4e98-43f4-a8a5-b48b84a5a67c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/SubWidget/WBP_HealthManaSpellsWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/SubWidget/WBP_HealthManaSpellsWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellGlobes/WBP_SpellGlobes.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellGlobes/WBP_SpellGlobes.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/WidgetController/BP_OverlayWidgetController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/WidgetController/BP_OverlayWidgetController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/AbilitySystem/Data/AttributeInfo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/AbilitySystem/Data/AttributeInfo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/AuraGameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/AuraGameplayTags.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/AuraGameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/AuraGameplayTags.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/OverlayWidgetController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/UI/WidgetController/OverlayWidgetController.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,27 +31,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://7" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://6" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/GameplayAbility.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/AbilitySystemComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/GameplayEffect.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -85,6 +74,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Core/Private/Windows/WindowsErrorOutputDevice.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Core/Private/Windows/WindowsPlatformFile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Core/Public/Logging/LogVerbosity.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/CoreUObject/Private/UObject/Class.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/CoreUObject/Private/UObject/ScriptCore.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/CoreUObject/Public/UObject/Class.h" root0="FORCE_HIGHLIGHTING" />
@@ -270,7 +260,8 @@
       <workItem from="1757215632323" duration="2984000" />
       <workItem from="1757288648758" duration="10816000" />
       <workItem from="1757374010216" duration="17607000" />
-      <workItem from="1757461062353" duration="10182000" />
+      <workItem from="1757461062353" duration="10789000" />
+      <workItem from="1757553892595" duration="4267000" />
     </task>
     <servers />
   </component>
