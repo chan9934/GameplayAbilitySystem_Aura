@@ -77,6 +77,18 @@ FGameplayTag UAuraAbilitySystemComponent::GetTagFromSpec(const FGameplayAbilityS
 		return GetAbilityTagFromSpec(AbilitySpec, RootTag);
 }
 
+void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+	Super::OnRep_ActivateAbilities();
+
+	if (!bStartupAbilitiesGiven)
+	{
+		bStartupAbilitiesGiven = true;
+		AbilitiesGivenDelegate.Broadcast(this);
+	}
+}	
+
+
 FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec, const FName& RootTag)
 {
 	if (AbilitySpec.Ability)

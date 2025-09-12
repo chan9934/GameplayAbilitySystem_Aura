@@ -34,6 +34,7 @@ protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec,
 	                         FActiveGameplayEffectHandle ActiveEffectHandle);
+	virtual void OnRep_ActivateAbilities()override;
 
 private:
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec, const FName& RootTag);
