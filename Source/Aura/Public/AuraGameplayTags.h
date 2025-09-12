@@ -68,6 +68,8 @@ public:
 	FGameplayTag Abilities_Summon;
 	
 	FGameplayTag Abilities_Fire_FireBolt;
+	
+	FGameplayTag Cooldown_Fire_FireBolt;
 
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
 
