@@ -36,4 +36,5 @@ protected:
 
 	virtual void InitAbilityActorInfo()override;
 
+
 };
