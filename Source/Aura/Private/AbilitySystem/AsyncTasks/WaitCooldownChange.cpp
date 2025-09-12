@@ -33,6 +33,10 @@ void UWaitCooldownChange::EndTask()
 
 void UWaitCooldownChange::CooldownTagChanged(const FGameplayTag InCooldownTag, int32 NewCount)
 {
+	if (NewCount == 0)
+	{
+		CooldownEnd.Broadcast(0.f);
+	}
 }
 
 void UWaitCooldownChange::OnACtiveEffectAdded(UAbilitySystemComponent* TargetASC,
