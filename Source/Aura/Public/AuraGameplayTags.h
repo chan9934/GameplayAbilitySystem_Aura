@@ -49,6 +49,7 @@ public:
 	 * Input Tags
 	 */
 	
+	FName InputTag_Root = FName("InputTag");
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;
@@ -62,6 +63,7 @@ public:
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
 
+	FName AbilityTag_Root = FName("Abilities");
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
 	
