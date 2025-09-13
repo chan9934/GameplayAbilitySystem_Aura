@@ -3,7 +3,7 @@
 
 #include "AbilitySystem/Data/LevelUpInfo.h"
 
-int32 ULevelUpInfo::FindLevelForXP(int32 XP)
+int32 ULevelUpInfo::FindLevelForXP(int32 XP)const
 {
 	//  level up information at one equals level one information
 	// level up information at two equals level two information

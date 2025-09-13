@@ -28,5 +28,5 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FAuraLevelUpInfo> LevelUpInformation;
 	UFUNCTION(BlueprintCallable)
-	int32 FindLevelForXP(int32 XP);
+	int32 FindLevelForXP(int32 XP)const;
 };

@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "AuraPlayerState.generated.h"
 
+class ULevelUpInfo;
 class UAbilitySystemComponent;
 class UAttributeSet;
 /**
@@ -39,6 +40,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddToXP(int AddXP);
 
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfo> LevelUpInfo;
+
+	float GetXPPercent(bool& Success, int32 CurrentXP)const;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -55,4 +61,5 @@ private:
 	void OnRep_Level(int32 OldLevel);
 	UFUNCTION()
 	void OnRep_XP(int32 OldXP);
+	
 };
