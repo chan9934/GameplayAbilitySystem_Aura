@@ -9,12 +9,8 @@
   <component name="ChangeListManager">
     <list default="true" id="6b3d2b2a-4e98-43f4-a8a5-b48b84a5a67c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Dungeon/Materials/Tileset1x1/Tilese1x1_2/M_Tilese1x1_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Dungeon/Materials/Tileset1x1/Tilese1x1_2/M_Tilese1x1_2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Dungeon/Materials/Tileset1x1/Tileset1x1_1/M_Tileset1x1_1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Dungeon/Materials/Tileset1x1/Tileset1x1_1/M_Tileset1x1_1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Dungeon/SM_Stairs.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Dungeon/SM_Stairs.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actor/FadeActor/FA_Tile_3x3x5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actor/FadeActor/FA_Tile_3x3x5.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/Actor/FadeActor/FA_Tile_3x3x9.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/Actor/FadeActor/FA_Tile_3x3x9.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Player/AuraPlayerState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Player/AuraPlayerState.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Player/AuraPlayerState.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +24,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="cidr-memory-view://0" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Compositing/Composure/Source/Composure/Private/EditorSupport/CompositingEditorSupportLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/GameplayAbility.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Private/Abilities/Tasks/AbilityTask.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -298,7 +295,7 @@
       <workItem from="1757553892595" duration="8618000" />
       <workItem from="1757630047690" duration="1896000" />
       <workItem from="1757660408110" duration="19423000" />
-      <workItem from="1757731982731" duration="1239000" />
+      <workItem from="1757731982731" duration="3047000" />
     </task>
     <servers />
   </component>
