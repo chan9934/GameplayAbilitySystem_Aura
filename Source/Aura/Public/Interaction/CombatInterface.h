@@ -73,4 +73,7 @@ public:
 	void IncrementMinionCount(int32 Amount);
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FGameplayTag GetAttackedTag();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	ECharacterClass GetCharacterClass();
 };

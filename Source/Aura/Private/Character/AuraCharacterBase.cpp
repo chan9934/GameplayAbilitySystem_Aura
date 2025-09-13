@@ -133,6 +133,11 @@ FGameplayTag AAuraCharacterBase::GetAttackedTag_Implementation()
 	return FAuraGameplayTags::Get().Abilities_Attack;
 }
 
+ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
