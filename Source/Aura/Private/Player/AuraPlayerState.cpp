@@ -46,13 +46,13 @@ void AAuraPlayerState::AddToLevel(int AddLevel)
 void AAuraPlayerState::SetXP(int NewXP)
 {
 	XP = NewXP;
-	OnXPChangedDelegate.Broadcast(NewXP);
+	OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AAuraPlayerState::AddToXP(int AddXP)
 {
 	XP += AddXP;
-	OnXPChangedDelegate.Broadcast(AddXP);
+	OnXPChangedDelegate.Broadcast(XP);
 }
 
 float AAuraPlayerState::GetXPPercent(bool& Success, int32 CurrentXP)const

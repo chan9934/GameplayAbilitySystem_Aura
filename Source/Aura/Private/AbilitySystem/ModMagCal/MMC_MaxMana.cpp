@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PlayerInterface.h"
 
 UMMC_MaxMana::UMMC_MaxMana()
 {
@@ -28,10 +29,13 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 	float Int = 0.f;
 	GetCapturedAttributeMagnitude(IntDef, Spec, EvaluateParams, Int);
 	Int = FMath::Max<float>(Int, 0);
+
+	int32 PlayerLevel = 1;
 	
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetEffectContext().GetSourceObject());
-	check(CombatInterface);
-	int PlayerLevel = CombatInterface->GetPlayerLevel();
+	if (Spec.GetEffectContext().GetSourceObject()->Implements<UPlayerInterface>())
+	{
+		PlayerLevel = IPlayerInterface::Execute_GetPlayerLevel(Spec.GetEffectContext().GetSourceObject());
+	}
 	
 	return 50.f + (2.5f * Int) + (15.f * PlayerLevel);
 }

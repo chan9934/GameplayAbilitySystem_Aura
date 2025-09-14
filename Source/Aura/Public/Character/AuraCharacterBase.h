@@ -7,6 +7,7 @@
 #include "AbilitySystemInterface.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PlayerInterface.h"
 #include "AuraCharacterBase.generated.h"
 
 class UNiagaraSystem;
@@ -17,7 +18,7 @@ class UGameplayAbility;
 class UAnimMontage;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface, public IPlayerInterface
 {
 	GENERATED_BODY()
 
@@ -25,8 +26,14 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	
+	/*Player Interface*/
+	virtual void AddToXP_Implementation(int32 InXP);
+	virtual void LevelUp_Implementation();
+	/*end Player Interface*/
 
 	/* Combat Interface*/
+	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die()override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)override;

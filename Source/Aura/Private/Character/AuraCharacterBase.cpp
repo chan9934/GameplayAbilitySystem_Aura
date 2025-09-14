@@ -9,6 +9,7 @@
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -25,6 +26,26 @@ AAuraCharacterBase::AAuraCharacterBase()
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AAuraCharacterBase::AddToXP_Implementation(int32 InXP)
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->AddToXP(InXP);
+	
+}
+
+void AAuraCharacterBase::LevelUp_Implementation()
+{
+	
+}
+
+int32 AAuraCharacterBase::GetPlayerLevel_Implementation()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
 }
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
