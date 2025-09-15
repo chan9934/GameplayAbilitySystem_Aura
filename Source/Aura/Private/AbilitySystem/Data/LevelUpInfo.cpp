@@ -47,13 +47,14 @@ float ULevelUpInfo::GetXPPercent(bool& Success, int32 CurrentXP) const
 	return XPPercent;
 }
 
-FAuraLevelUpInfo ULevelUpInfo::GetLevelUpInfoForLevel(int32 Level) const
+const FAuraLevelUpInfo& ULevelUpInfo::GetLevelUpInfoForLevel(int32 Level) const
 {
 	if (IsValidLevel(Level))
 	{
 		return LevelUpInformation[Level];
 	}
-	return FAuraLevelUpInfo();
+    static const FAuraLevelUpInfo DefaultLevelUpInfo;
+	return DefaultLevelUpInfo;
 }
 
 bool ULevelUpInfo::IsValidLevel(int32 Level) const

@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "AuraPlayerState.generated.h"
 
+struct FAuraLevelUpInfo;
 class ULevelUpInfo;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -59,11 +60,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetXPPercent(bool& Success, int32 CurrentXP)const;
 	
-
 	
 	UFUNCTION(BlueprintPure)
 	ULevelUpInfo* GetLevelUpInfo()const;
 
+	const FAuraLevelUpInfo& GetAuraLevelInfo(int32 InLevel)const;
 
 
 protected:

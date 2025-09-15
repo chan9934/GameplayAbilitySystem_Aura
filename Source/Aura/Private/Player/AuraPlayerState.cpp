@@ -36,18 +36,18 @@ void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 void AAuraPlayerState::SetLevel(int NewLevel)
 {
 	int32 AmountOfAttributePointsReward = 0;
-	int32 AmountOfSpellPointsReward = 0; 
+	int32 AmountOfSpellPointsReward = 0;
 	for (int32 i = Level + 1; i <= NewLevel; ++i)
 	{
 		const FAuraLevelUpInfo AuraLevelUpInfo = GetLevelUpInfo()->GetLevelUpInfoForLevel(Level);
-		AmountOfAttributePointsReward +=AuraLevelUpInfo.AttributePointAward;
+		AmountOfAttributePointsReward += AuraLevelUpInfo.AttributePointAward;
 		AmountOfSpellPointsReward += AuraLevelUpInfo.SpellPointAward;
 	}
-	
+
 	Level = NewLevel;
 
 	// ToDo Use AmountOfAttributePointsReward And AmountOfSpellPointsReward
-	
+
 	OnLevelChangedDelegate.Broadcast(NewLevel);
 }
 
@@ -81,20 +81,26 @@ void AAuraPlayerState::AddToSpellPoints(int32 InPoints)
 	OnSpellPointChangedDelegate.Broadcast(SpellPoints);
 }
 
-int32 AAuraPlayerState::FindLevelForXP(int32 InXP)const
+int32 AAuraPlayerState::FindLevelForXP(int32 InXP) const
 {
 	return GetLevelUpInfo()->FindLevelForXP(InXP);
 }
 
-float AAuraPlayerState::GetXPPercent(bool& Success, int32 CurrentXP)const
+float AAuraPlayerState::GetXPPercent(bool& Success, int32 CurrentXP) const
 {
 	return GetLevelUpInfo()->GetXPPercent(Success, CurrentXP);
 }
+
 
 void AAuraPlayerState::SetAttributePoints(int32 InPoints)
 {
 	AttributePoints = InPoints;
 	OnAttributePointChangedDelegate.Broadcast(InPoints);
+}
+
+const FAuraLevelUpInfo& AAuraPlayerState::GetAuraLevelInfo(int32 InLevel)const
+{
+	return  GetLevelUpInfo()->GetLevelUpInfoForLevel(InLevel);
 }
 
 void AAuraPlayerState::SetSpellPoints(int32 InPoints)
