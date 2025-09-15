@@ -136,7 +136,22 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		const float LocalIncomingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
 		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		{
+			const int32 CurrentLevel = IPlayerInterface::Execute_GetPlayerLevel(Props.SourceCharacter.Get());
+			const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceCharacter.Get());
+
+			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter.Get(), LocalIncomingXP + CurrentXP);
+			const int32 NumLevelUps = NewLevel - CurrentLevel;
+
+			if (NumLevelUps > 0)
+			{
+				IPlayerInterface::Execute_SetLevel(Props.SourceCharacter.Get(), NewLevel);
+				SetHealth(GetMaxHealth());
+				SetMana(GetMaxMana());
+			}
+			
 			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter.Get(), LocalIncomingXP);
+		}
 	}
 }
 

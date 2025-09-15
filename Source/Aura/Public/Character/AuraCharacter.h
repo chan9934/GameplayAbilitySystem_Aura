@@ -21,7 +21,7 @@ public:
 	AAuraCharacter();
 
 	/** Combat Interface */
-	virtual int32 GetPlayerLevel_Implementation() override;
+	virtual int32 GetPlayerLevel_Implementation()const override;
 	/** end Combat Interface */
 
 

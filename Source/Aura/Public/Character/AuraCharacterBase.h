@@ -28,12 +28,14 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
 	/*Player Interface*/
-	virtual void AddToXP_Implementation(int32 InXP);
-	virtual void LevelUp_Implementation();
+	virtual int32 GetPlayerLevel_Implementation()const override;
+	virtual int32 GetXP_Implementation()const override;
+	virtual int32 FindLevelForXP_Implementation(int32 InXP)const override;
+	virtual void AddToXP_Implementation(int32 InXP)override;
+	virtual void SetLevel_Implementation(int32 NewLevel)override;
 	/*end Player Interface*/
 
 	/* Combat Interface*/
-	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die()override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)override;

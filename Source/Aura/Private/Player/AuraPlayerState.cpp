@@ -33,7 +33,19 @@ void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 
 void AAuraPlayerState::SetLevel(int NewLevel)
 {
+	int32 AmountOfAttributePointsReward = 0;
+	int32 AmountOfSpellPointsReward = 0; 
+	for (int32 i = Level + 1; i <= NewLevel; ++i)
+	{
+		const FAuraLevelUpInfo AuraLevelUpInfo = GetLevelUpInfo()->GetLevelUpInfoForLevel(Level);
+		AmountOfAttributePointsReward +=AuraLevelUpInfo.AttributePointAward;
+		AmountOfSpellPointsReward += AuraLevelUpInfo.SpellPointAward;
+	}
+	
 	Level = NewLevel;
+
+	// ToDo Use AmountOfAttributePointsReward And AmountOfSpellPointsReward
+	
 	OnLevelChangedDelegate.Broadcast(NewLevel);
 }
 
@@ -55,28 +67,20 @@ void AAuraPlayerState::AddToXP(int AddXP)
 	OnXPChangedDelegate.Broadcast(XP);
 }
 
+int32 AAuraPlayerState::FindLevelForXP(int InXP)const
+{
+	return GetLevelUpInfo()->FindLevelForXP(InXP);
+}
+
 float AAuraPlayerState::GetXPPercent(bool& Success, int32 CurrentXP)const
 {
+	return GetLevelUpInfo()->GetXPPercent(Success, CurrentXP);
+}
+
+ULevelUpInfo* AAuraPlayerState::GetLevelUpInfo() const
+{
 	checkf(LevelUpInfo, TEXT("Unabled to find LevelUpInfo. Please fill out AuraPlayerState Blueprint"));
-	
-	float XPPercent = 100.0f;
-	
-	const int32 CurrentLevel = LevelUpInfo->FindLevelForXP(CurrentXP);
-
-	const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num() - 1;
-	if (CurrentLevel <= MaxLevel && CurrentLevel > 0)
-	{
-		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[CurrentLevel].LevelUpRequirement;
-		const int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInformation[CurrentLevel -1].LevelUpRequirement;
-
-		const int32 DeltaLevelRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
-		const int32 XPForThisLevel = CurrentXP - PreviousLevelUpRequirement;
-
-		Success = true;
-		return float(XPForThisLevel) / float(DeltaLevelRequirement);	
-	}
-	Success = false;
-	return XPPercent;
+	return LevelUpInfo;
 }
 
 void AAuraPlayerState::OnRep_Level(int32 OldLEvel)

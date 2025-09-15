@@ -39,11 +39,14 @@ public:
 	void SetXP(int NewXP);
 	UFUNCTION(BlueprintCallable)
 	void AddToXP(int AddXP);
-
-	UPROPERTY(EditDefaultsOnly)
-	TObjectPtr<ULevelUpInfo> LevelUpInfo;
-
+	UFUNCTION(BlueprintCallable)
+	int32 FindLevelForXP(int InXP)const;
+	UFUNCTION(BlueprintCallable)
 	float GetXPPercent(bool& Success, int32 CurrentXP)const;
+	UFUNCTION(BlueprintPure)
+	ULevelUpInfo* GetLevelUpInfo()const;
+
+
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -56,7 +59,10 @@ private:
 	int32 Level = 1;
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_XP)
 	int32 XP = 0;
-
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfo> LevelUpInfo;
+	
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
 	UFUNCTION()

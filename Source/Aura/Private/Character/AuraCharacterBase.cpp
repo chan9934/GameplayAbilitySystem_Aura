@@ -33,19 +33,34 @@ void AAuraCharacterBase::AddToXP_Implementation(int32 InXP)
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	AuraPlayerState->AddToXP(InXP);
-	
 }
 
-void AAuraCharacterBase::LevelUp_Implementation()
+void AAuraCharacterBase::SetLevel_Implementation(int32 NewLevel)
 {
-	
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->SetLevel(NewLevel);
 }
 
-int32 AAuraCharacterBase::GetPlayerLevel_Implementation()
+int32 AAuraCharacterBase::GetPlayerLevel_Implementation()const
 {
 	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	return AuraPlayerState->GetPlayerLevel();
+}
+
+int32 AAuraCharacterBase::GetXP_Implementation() const
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerXP();
+}
+
+int32 AAuraCharacterBase::FindLevelForXP_Implementation(int32 InXP) const
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->FindLevelForXP(InXP);
 }
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()

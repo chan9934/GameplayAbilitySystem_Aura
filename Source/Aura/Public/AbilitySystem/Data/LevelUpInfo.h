@@ -27,6 +27,11 @@ class AURA_API ULevelUpInfo : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FAuraLevelUpInfo> LevelUpInformation;
-	UFUNCTION(BlueprintCallable)
+	
 	int32 FindLevelForXP(int32 XP)const;
+	float GetXPPercent(bool& Success, int32 CurrentXP)const;
+	FAuraLevelUpInfo GetLevelUpInfoForLevel(int32 Level)const;
+
+private:
+	bool IsValidLevel(int32 Level)const;
 };

@@ -35,7 +35,7 @@ AAuraCharacter::AAuraCharacter()
 	CharacterClass = ECharacterClass::Elementalist;
 }
 
-int32 AAuraCharacter::GetPlayerLevel_Implementation()
+int32 AAuraCharacter::GetPlayerLevel_Implementation()const
 {
 	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
