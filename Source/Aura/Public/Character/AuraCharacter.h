@@ -8,6 +8,9 @@
 #include "AuraCharacter.generated.h"
 
 class UGameplayEffect;
+class UNiagaraComponent;
+class UCameraComponent;
+class USpringArmComponent;
 
 /**
  * 
@@ -21,20 +24,28 @@ public:
 	AAuraCharacter();
 
 	/** Combat Interface */
-	virtual int32 GetPlayerLevel_Implementation()const override;
+	virtual int32 GetPlayerLevel_Implementation() const override;
 	/** end Combat Interface */
 
+	/** Player Interface */
+	virtual void SetLevel_Implementation(int32 NewLevel) override;
+	/** end Player Interface */
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	class UCameraComponent* Camera;
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	class USpringArmComponent* SpringArm;
-
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
-	virtual void InitAbilityActorInfo()override;
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	TObjectPtr<UCameraComponent> TopDownCameraComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	TObjectPtr<USpringArmComponent> CameraBoom;
 
+	virtual void InitAbilityActorInfo() override;
 
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastLevelUpParticles();
 };
