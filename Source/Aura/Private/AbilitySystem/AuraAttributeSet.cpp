@@ -135,9 +135,9 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		const float LocalIncomingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
-		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		if (Props.SourceCharacter->Implements<UCombatInterface>() && Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
-			const int32 CurrentLevel = IPlayerInterface::Execute_GetPlayerLevel(Props.SourceCharacter.Get());
+			const int32 CurrentLevel = ICombatInterface::Execute_GetLevel(Props.SourceCharacter.Get());
 			const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceCharacter.Get());
 
 			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter.Get(), LocalIncomingXP + CurrentXP);
@@ -213,9 +213,9 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 {
 	
-	if (Props.TargetCharacter->Implements<UPlayerInterface>())
+	if (Props.TargetCharacter->Implements<UCombatInterface>())
 	{
-		int32 TargetLevel = IPlayerInterface::Execute_GetPlayerLevel(Props.TargetCharacter.Get());
+		int32 TargetLevel = ICombatInterface::Execute_GetLevel(Props.TargetCharacter.Get());
 		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter.Get());
 		const int32 XPReward = UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(
 			Props.TargetCharacter.Get(), TargetClass, TargetLevel);

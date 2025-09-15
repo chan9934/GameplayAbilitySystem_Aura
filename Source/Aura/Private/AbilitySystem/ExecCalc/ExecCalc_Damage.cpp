@@ -9,6 +9,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AuraAbilityTypes.h"
+#include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
 
 struct AuraDamageStatics
@@ -90,13 +91,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	int32 SourceLevel = 1;
 	int32 TargetLevel = 1;
 	
-	if (SourceActor->Implements<UPlayerInterface>())
+	if (SourceActor->Implements<UCombatInterface>())
 	{
-		SourceLevel = IPlayerInterface::Execute_GetPlayerLevel(SourceActor);
+		SourceLevel = ICombatInterface::Execute_GetLevel(SourceActor);
 	}
-	if (TargetActor->Implements<UPlayerInterface>())
+	if (TargetActor->Implements<UCombatInterface>())
 	{
-		TargetLevel = IPlayerInterface::Execute_GetPlayerLevel(TargetActor);
+		TargetLevel = ICombatInterface::Execute_GetLevel(TargetActor);
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();

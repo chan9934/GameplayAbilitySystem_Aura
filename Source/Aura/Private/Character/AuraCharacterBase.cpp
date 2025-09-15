@@ -6,7 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
-#include "AbilitySystem/Data/LevelUpInfo.h"
 #include "Aura/Aura.h"
 #include "Aura/AuraLogChannels.h"
 #include "Components/CapsuleComponent.h"
@@ -30,67 +29,6 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
-void AAuraCharacterBase::AddToXP_Implementation(int32 InXP)
-{
-	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	AuraPlayerState->AddToXP(InXP);
-}
-
-void AAuraCharacterBase::AddToAttributePoints_Implementation(int32 InAttributePoints)
-{
-	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	AuraPlayerState->AddToAttributePoints(InAttributePoints);
-}
-
-void AAuraCharacterBase::AddToSpellPoints_Implementation(int32 InSpellPoints)
-{
-	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	AuraPlayerState->AddToSpellPoints(InSpellPoints);
-}
-
-void AAuraCharacterBase::SetLevel_Implementation(int32 NewLevel)
-{
-	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	AuraPlayerState->SetLevel(NewLevel);
-}
-
-int32 AAuraCharacterBase::GetPlayerLevel_Implementation()const
-{
-	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->GetPlayerLevel();
-}
-
-int32 AAuraCharacterBase::GetXP_Implementation() const
-{
-	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->GetPlayerXP();
-}
-
-int32 AAuraCharacterBase::GetAttributePointsReward_Implementation(int32 InLevel) const
-{
-	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);return AuraPlayerState->GetAuraLevelInfo(InLevel).AttributePointAward;
-}
-
-int32 AAuraCharacterBase::GetSpellPointsReward_Implementation(int32 InLevel) const
-{
-	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->GetAuraLevelInfo(InLevel).SpellPointAward;
-}
-
-int32 AAuraCharacterBase::FindLevelForXP_Implementation(int32 InXP) const
-{
-	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->FindLevelForXP(InXP);
-}
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 {

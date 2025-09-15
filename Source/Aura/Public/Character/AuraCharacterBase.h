@@ -18,7 +18,7 @@ class UGameplayAbility;
 class UAnimMontage;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface, public IPlayerInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -27,17 +27,6 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
-	/*Player Interface*/
-	virtual int32 GetPlayerLevel_Implementation()const override;
-	virtual int32 GetXP_Implementation()const override;
-	virtual int32 GetAttributePointsReward_Implementation(int32 InLevel) const override;
-	virtual int32 GetSpellPointsReward_Implementation(int32 InLevel) const override;
-	virtual int32 FindLevelForXP_Implementation(int32 InXP)const override;
-	virtual void AddToXP_Implementation(int32 InXP)override;
-	virtual void AddToAttributePoints_Implementation(int32 InAttributePoints)override;
-	virtual void AddToSpellPoints_Implementation(int32 InSpellPoints)override;
-	virtual void SetLevel_Implementation(int32 NewLevel)override;
-	/*end Player Interface*/
 
 	/* Combat Interface*/
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;

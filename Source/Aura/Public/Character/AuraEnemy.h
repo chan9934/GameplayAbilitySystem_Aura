@@ -32,10 +32,10 @@ public:
 	/** end Enemy Interface */
 	
 	/** Combat Interface */
-	virtual int32 GetPlayerLevel_Implementation()const override;
+	virtual int32 GetLevel_Implementation()const override;
 	virtual void Die()override;
-	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget);
-	virtual AActor* GetCombatTarget_Implementation();
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget)override;
+	virtual AActor* GetCombatTarget_Implementation()override;
 	/** end Combat Interface */
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
