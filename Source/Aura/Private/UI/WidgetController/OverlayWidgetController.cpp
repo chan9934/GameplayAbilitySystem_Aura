@@ -11,7 +11,6 @@
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
 	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
@@ -20,82 +19,62 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
-	check(AbilitySystemComponent);
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	check(AuraAbilitySystemComponent);
 	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	AuraPlayerState->OnLevelChangedDelegate.AddLambda([this](int32 NewLevel)
 	{
 		OnPlayerStatChangedDelegate.Broadcast(NewLevel);
 	});
 
-	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute()).AddLambda(
-		[this](const FOnAttributeChangeData& Data)
-		{
-			OnHealthChanged.Broadcast(Data.NewValue);
-		});
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetManaAttribute()).AddLambda(
+	AuraAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute()).
+	                            AddLambda(
+		                            [this](const FOnAttributeChangeData& Data)
+		                            {
+			                            OnHealthChanged.Broadcast(Data.NewValue);
+		                            });
+	AuraAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetManaAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnManaChanged.Broadcast(Data.NewValue);
 		});
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxHealthAttribute()).
-	                        AddLambda(
-		                        [this](const FOnAttributeChangeData& Data)
-		                        {
-			                        OnMaxHealthChanged.Broadcast(Data.NewValue);
-		                        });
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute()).AddLambda(
-		[this](const FOnAttributeChangeData& Data)
-		{
-			OnMaxManaChanged.Broadcast(Data.NewValue);
-		});
-	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	AuraAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxHealthAttribute()).
+	                            AddLambda(
+		                            [this](const FOnAttributeChangeData& Data)
+		                            {
+			                            OnMaxHealthChanged.Broadcast(Data.NewValue);
+		                            });
+	AuraAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute()).
+	                            AddLambda(
+		                            [this](const FOnAttributeChangeData& Data)
+		                            {
+			                            OnMaxManaChanged.Broadcast(Data.NewValue);
+		                            });
+	if (AuraAbilitySystemComponent->bStartupAbilitiesGiven)
 	{
-		if (AuraASC->bStartupAbilitiesGiven)
-		{
-			OnInitializeStartupAbilities(AuraASC);
-		}
-		else
-		{
-			AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
-		}
-		AuraASC->EffectAssetTags.AddLambda(
-			[this](const FGameplayTagContainer& TagContainer)
-			{
-				for (const FGameplayTag& Tag : TagContainer)
-				{
-					// "Message.HealthPotion".MatchesTag("Message") will return True, "Message".MatchesTag("Message.HealthPotion") will return False
-					FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-					if (Tag.MatchesTag(MessageTag))
-					{
-						const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-						MessageWidgetRowDelegate.Broadcast(*Row);
-					}
-				}
-			});
+		BraodcastAbilityInfo();
 	}
-}
-
-void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
-{
-	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven)return;
-
-	FForEachAbility BroadcastDelegate;
-	BroadcastDelegate.BindLambda([this, AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
+	else
 	{
-		FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
-		FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(
-			UAuraAbilitySystemComponent::GetTagFromSpec(AbilitySpec, GameplayTags.AbilityTag_Root));
-		Info.InputTag = UAuraAbilitySystemComponent::GetTagFromSpec(AbilitySpec, GameplayTags.InputTag_Root, true);
-		AbilityInfoDelegate.Broadcast(Info);
-	});
-	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
+		AuraAbilitySystemComponent->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BraodcastAbilityInfo);
+	}
+	AuraAbilitySystemComponent->EffectAssetTags.AddLambda(
+		[this](const FGameplayTagContainer& TagContainer)
+		{
+			for (const FGameplayTag& Tag : TagContainer)
+			{
+				// "Message.HealthPotion".MatchesTag("Message") will return True, "Message".MatchesTag("Message.HealthPotion") will return False
+				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+				if (Tag.MatchesTag(MessageTag))
+				{
+					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+					MessageWidgetRowDelegate.Broadcast(*Row);
+				}
+			}
+		});
 }
 
-void UOverlayWidgetController::OnXPChanged(int32 NewXP)const
+void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
 {
-	const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	bool bSuccess = false;
 	const float XPBarPErcent = AuraPlayerState->GetXPPercent(bSuccess, NewXP);
 	if (bSuccess)
