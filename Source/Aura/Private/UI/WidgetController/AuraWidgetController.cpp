@@ -49,7 +49,6 @@ void UAuraWidgetController::BraodcastAbilityInfo()
 		Info.InputTag = UAuraAbilitySystemComponent::GetTagFromSpec(AbilitySpec, GameplayTags.InputTag_Root, true);
 		Info.StatusTag = UAuraAbilitySystemComponent::GetStatusFromSpec(AbilitySpec);
 		
-		UE_LOG(LogAura, Warning, TEXT("Info AbilityTag : %s, StatusTag : %s"), *Info.AbilityTag.ToString(), *Info.StatusTag.ToString());
 		AbilityInfoDelegate.Broadcast(Info);
 	});
 	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);

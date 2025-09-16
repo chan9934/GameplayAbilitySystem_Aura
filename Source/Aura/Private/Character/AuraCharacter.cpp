@@ -20,16 +20,16 @@ AAuraCharacter::AAuraCharacter()
 	LevelUpNiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("LevelUpNiagaraComponent"));
 	LevelUpNiagaraComponent->SetupAttachment(GetRootComponent());
 	LevelUpNiagaraComponent->bAutoActivate = false;
-	
+
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetCapsuleComponent());
 	CameraBoom->SetUsingAbsoluteRotation(true);
 	CameraBoom->bDoCollisionTest = false;
-	
+
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCameraComponent"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom);
 	TopDownCameraComponent->bUsePawnControlRotation = false;
-	
+
 
 	// TopDown 방식 셋팅
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -44,11 +44,11 @@ AAuraCharacter::AAuraCharacter()
 	CharacterClass = ECharacterClass::Elementalist;
 }
 
-int32 AAuraCharacter::GetLevel_Implementation()const
+int32 AAuraCharacter::GetLevel_Implementation() const
 {
 	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
-	return AuraPlayerState->GetPlayerLevel();	
+	return AuraPlayerState->GetPlayerLevel();
 }
 
 void AAuraCharacter::AddToXP_Implementation(int32 InXP)
@@ -120,9 +120,11 @@ void AAuraCharacter::SetLevel_Implementation(int32 NewLevel)
 	check(AuraPlayerState);
 	AuraPlayerState->SetLevel(NewLevel);
 
-	if(UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
-	{AuraASC->UpdateAbilityStatuses(NewLevel);}
-	
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		AuraASC->UpdateAbilityStatuses(NewLevel);
+	}
+
 	MulticastLevelUpParticles();
 }
 
@@ -161,7 +163,7 @@ void AAuraCharacter::OnRep_PlayerState()
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);	
+	check(AuraPlayerState);
 
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
