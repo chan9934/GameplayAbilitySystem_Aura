@@ -119,6 +119,10 @@ void AAuraCharacter::SetLevel_Implementation(int32 NewLevel)
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	AuraPlayerState->SetLevel(NewLevel);
+
+	if(UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{AuraASC->UpdateAbilityStatuses(NewLevel);}
+	
 	MulticastLevelUpParticles();
 }
 

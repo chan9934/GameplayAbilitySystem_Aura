@@ -7,6 +7,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "Aura/AuraLogChannels.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 
@@ -47,6 +48,8 @@ void UAuraWidgetController::BraodcastAbilityInfo()
 			UAuraAbilitySystemComponent::GetTagFromSpec(AbilitySpec, GameplayTags.AbilityTag_Root));
 		Info.InputTag = UAuraAbilitySystemComponent::GetTagFromSpec(AbilitySpec, GameplayTags.InputTag_Root, true);
 		Info.StatusTag = UAuraAbilitySystemComponent::GetStatusFromSpec(AbilitySpec);
+		
+		UE_LOG(LogAura, Warning, TEXT("Info AbilityTag : %s, StatusTag : %s"), *Info.AbilityTag.ToString(), *Info.StatusTag.ToString());
 		AbilityInfoDelegate.Broadcast(Info);
 	});
 	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
