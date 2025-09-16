@@ -30,6 +30,7 @@ public:
 	void ForEachAbility(const FForEachAbility& Delegate);
 
 	static FGameplayTag GetTagFromSpec(const FGameplayAbilitySpec& AbilitySpec, const FName& RootTag,  bool bIsDynamicAbilityTag = false);
+	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
