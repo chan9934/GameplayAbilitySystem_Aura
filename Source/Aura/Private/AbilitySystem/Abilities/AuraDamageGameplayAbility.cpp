@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 
 void UAuraDamageGameplayAbility::SetDamageByDamageTypes(const FGameplayEffectSpecHandle& SpecHandle)
 {
@@ -20,4 +21,10 @@ FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontageFromArray(const
 	const int32 ArrayLength = TaggedMontages.Num();
 	const int32 Selection = FMath::RandRange(0, ArrayLength - 1);
 	return TaggedMontages[Selection];
+}
+
+float UAuraDamageGameplayAbility::GetDamageByDamageType(float InLevel, const FGameplayTag& DamageType)
+{
+	checkf(DamageTypes.Contains(DamageType), TEXT("GameplayAbility %s does not contain DamageType %s"), *GetNameSafe(this), *DamageType.ToString());
+	return DamageTypes[DamageType].GetValueAtLevel(InLevel);
 }
