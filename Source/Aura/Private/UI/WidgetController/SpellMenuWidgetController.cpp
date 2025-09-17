@@ -19,7 +19,7 @@ void USpellMenuWidgetController::BroadcastInitialValues()
 void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
 	AuraAbilitySystemComponent->AbilityStatusChanged.AddLambda(
-		[this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+		[this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 NewLevel)
 		{
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
 			Info.StatusTag = StatusTag;
@@ -72,6 +72,12 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 	SelectedAbility.Ability = AbilityTag;
 	SelectedAbility.Status = AbilityStatus;
 	BroadcastButtonStates(AbilityStatus);
+}
+
+void USpellMenuWidgetController::SpendPointButtonPressed()
+{
+	check(AuraAbilitySystemComponent);
+	AuraAbilitySystemComponent->ServerSpendSpellPoint(SelectedAbility.Ability);
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints,
