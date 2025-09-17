@@ -7,16 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3ee8d36-4288-41b0-a886-45e4ebe510d8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_AttributeMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_AttributeMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_TextValueButtonRow.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/AttributeMenu/WBP_TextValueButtonRow.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/Overlay/WBP_Overlay.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellGlobes/WBP_SpellGlobe_Button.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellGlobes/WBP_SpellGlobe_Button.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_OffensiveSpellTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_OffensiveSpellTree.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_PassiveSpellTree.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_PassiveSpellTree.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_SpellMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/UI/SpellMenu/WBP_SpellMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" afterDir="false" />
-    </list>
+    <list default="true" id="f3ee8d36-4288-41b0-a886-45e4ebe510d8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -320,7 +311,7 @@
       <updated>1757819590797</updated>
       <workItem from="1757819591313" duration="2409000" />
       <workItem from="1757895768066" duration="27942000" />
-      <workItem from="1757979347860" duration="27916000" />
+      <workItem from="1757979347860" duration="27933000" />
     </task>
     <servers />
   </component>
