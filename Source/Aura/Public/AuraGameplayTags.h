@@ -72,7 +72,6 @@ public:
 	FGameplayTag Damage_Physical;
 
 	FName AbilityTag_Root = FName("Abilities");
-	FGameplayTag Abilities_None;
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
 	

@@ -15,7 +15,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectedSignature, bool
 
 struct FSelectAbility
 {
-	bool bSelected = false;
 	FGameplayTag Ability = FGameplayTag();
 	FGameplayTag Status = FGameplayTag();
 };
@@ -48,5 +47,6 @@ public:
 private:
 	static void ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints,
 	                                bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton);
+	void GlobeDeselect();
 	FSelectAbility SelectedAbility;
 };

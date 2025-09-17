@@ -85,7 +85,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	/*
 	 * Abilities
 	 */
-	GameplayTags.Abilities_None = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.None"), TEXT("No Ability - like the nullptr for Ability Tags"));
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Attack"), TEXT("Attack Ability Tag"));
 	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Summon"), TEXT("Summon Ability Tag"));
 	
