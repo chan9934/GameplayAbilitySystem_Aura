@@ -9,8 +9,8 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "SpellMenuWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSpellGlobeSelectedSignature, bool, bSpendPointButtonEnabled, bool,
-                                             bEquipButtonEnabled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectedSignature, bool, bSpendPointButtonEnabled, bool,
+                                             bEquipButtonEnabled, FString, DescriptionString, FString, NextLevelDescriptionString);
 
 
 struct FSelectAbility
@@ -31,7 +31,7 @@ class AURA_API USpellMenuWidgetController : public UAuraWidgetController
 public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
-	void BroadcastButtonStates(FGameplayTag AbilityCurrentStatus);
+	void BroadcastButtonStates();
 
 	UPROPERTY(BlueprintAssignable)
 	FOnIntDataChangedSignature SpellPointsChanged;
