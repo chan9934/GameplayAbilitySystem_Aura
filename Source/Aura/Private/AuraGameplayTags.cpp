@@ -78,6 +78,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Debuff_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Arcane"), TEXT("Debuff for Arcane damage"));
 	GameplayTags.Debuff_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Physical"), TEXT("Debuff for Physical damage"));
 
+	GameplayTags.Debuff_Change = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Change"), TEXT("Debuff Change"));	
+	GameplayTags.Debuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Damage"), TEXT("Debuff Damage"));
+	GameplayTags.Debuff_Frequency =  UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Frequency"), TEXT("Debuff Frequency"));
+	GameplayTags.Debuff_Duration =   UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Debuff.Duration"), TEXT("Debuff Duration"));
+
 	/*
 	 * Map of Damage Types to Resistances
 	 */

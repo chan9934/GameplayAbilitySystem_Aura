@@ -56,6 +56,12 @@ public:
 	FGameplayTag Debuff_Stun;
 	FGameplayTag Debuff_Arcane;
 	FGameplayTag Debuff_Physical;
+	
+	FGameplayTag Debuff_Change;
+	FGameplayTag Debuff_Damage;
+	FGameplayTag Debuff_Frequency;
+	FGameplayTag Debuff_Duration;
+	
 
 	FName AbilityTag_Root = FName("Abilities");
 	FGameplayTag Abilities_Attack;
@@ -80,23 +86,14 @@ public:
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistance;
 
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
-	/*
-	 * Effect
-	 */
+	
 	FGameplayTag Effects_HitReact;
 	
-	/*
-	 * Combat Sockets
-	 */
 	FGameplayTag CombatSocket_Weapon;
 	FGameplayTag CombatSocket_LeftHand;
 	FGameplayTag CombatSocket_RightHand;
 	FGameplayTag CombatSocket_Tail;
 
-	
-	/*
-	 * Montages
-	 */
 	FGameplayTag Montage_Attack_1;
 	FGameplayTag Montage_Attack_2;
 	FGameplayTag Montage_Attack_3;
