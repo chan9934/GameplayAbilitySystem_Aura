@@ -17,7 +17,7 @@ AAuraProjectile::AAuraProjectile()
 	bReplicates = true;
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 
-		RootComponent = Sphere;
+	RootComponent = Sphere;
 	Sphere->SetCollisionObjectType(ECC_Projectile);
 	Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -39,19 +39,26 @@ void AAuraProjectile::BeginPlay()
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent);
 	FTimerHandle SetCollisionHandle;
 	GetWorld()->GetTimerManager().SetTimer(SetCollisionHandle, [this]()
-	{
-	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	},
-	0.1f, false);
+	                                       {
+		                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	                                       },
+	                                       0.1f, false);
+}
+
+void AAuraProjectile::OnHit()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+	if (LoopingSoundComponent)LoopingSoundComponent->Stop();
+	bHit = true;
 }
 
 void AAuraProjectile::Destroyed()
 {
-	if (!bHit && !HasAuthority())
+	// Client-side fallback: Play impact effects if not already hit due to network timing
+   	if (!bHit && !HasAuthority())
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		if (LoopingSoundComponent)LoopingSoundComponent->Stop();
+		OnHit();
 	}
 	Super::Destroyed();
 }
@@ -60,27 +67,16 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                       const FHitResult& SweepResult)
 {
-	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
-	{
-		return;
-	}
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
-	{
-		return;
-	}
-	if (!bHit)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		if (LoopingSoundComponent) LoopingSoundComponent->Stop();
-	}
-	bHit = true;
-
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor)return;
+		if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor,  OtherActor))return;
+	if (!bHit)OnHit();
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 
 		Destroy();
