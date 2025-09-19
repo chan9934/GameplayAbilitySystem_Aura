@@ -26,6 +26,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		OnPlayerStatChangedDelegate.Broadcast(NewLevel);
 	});
 
+	AuraAbilitySystemComponent->AbilityEquipped.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
 	AuraAbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute()).
 	                            AddLambda(
 		                            [this](const FOnAttributeChangeData& Data)
@@ -81,4 +82,20 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
 	{
 		OnXPPercentChangedDelegate.Broadcast(XPBarPErcent);
 	}
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status,
+	const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
+{
+
+	const FAuraGameplayTags& GameplayTags = GameplayTags.Get();
+	FAuraAbilityInfo LastSlotInfo;
+	LastSlotInfo.InputTag = PreviousSlot;
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = Status;
+	Info.InputTag = Slot;	
+	AbilityInfoDelegate.Broadcast(Info);
+	
 }

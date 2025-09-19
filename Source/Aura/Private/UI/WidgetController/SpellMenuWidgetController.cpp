@@ -134,8 +134,6 @@ void USpellMenuWidgetController::SpellRowGlobePressed(const FGameplayTag& SlotTa
 void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status,
 	const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
 {
-	bWaitingForEquipSelection = false;
-
 	const FAuraGameplayTags& GameplayTags = GameplayTags.Get();
 	FAuraAbilityInfo LastSlotInfo;
 	LastSlotInfo.InputTag = PreviousSlot;
@@ -147,6 +145,8 @@ void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTa
 	AbilityInfoDelegate.Broadcast(Info);
 	
 	StopWaitingEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType);
+	GlobeDeselect();
+	
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints,
