@@ -46,6 +46,9 @@ public:
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 	UFUNCTION(BlueprintCallable, meta = (DefaultToSelf = WorldContextObject), Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static int32 GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
+	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& Params);
 private:
 	static bool MakeWidgetControllerParams(APlayerController* PC, FWidgetControllerParams& OutWCParams);
 };
