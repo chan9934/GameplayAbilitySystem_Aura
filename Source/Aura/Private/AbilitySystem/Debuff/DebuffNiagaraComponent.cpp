@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
 
 UDebuffNiagaraComponent::UDebuffNiagaraComponent()
@@ -49,7 +50,9 @@ void UDebuffNiagaraComponent::DebuffTagChanged(const FGameplayTag CallbackTag, i
 {
 	if (CallbackTag == DebuffTag)
 	{
-		if (NewCount > 0)
+		const bool bOwnerValid = IsValid(GetOwner());
+		const bool bOwnerAlibe = (GetOwner()->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(GetOwner()));
+		if (NewCount > 0 && (bOwnerValid && !bOwnerAlibe))
 		{
 			Activate();
 		}
