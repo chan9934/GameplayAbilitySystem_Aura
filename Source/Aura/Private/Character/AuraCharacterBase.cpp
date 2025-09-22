@@ -164,6 +164,11 @@ FOnDeath& AAuraCharacterBase::GetOnDeathDelegate()
 	return OnDeath;
 }
 
+void AAuraCharacterBase::Knockback_Implementation(const FVector& KnockbackForce)
+{
+	LaunchCharacter(KnockbackForce, true, true);
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));

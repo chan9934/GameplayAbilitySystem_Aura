@@ -229,6 +229,17 @@ FVector UAuraAbilitySystemLibrary::GetDeathImpluse(const FGameplayEffectContextH
 	
 }
 
+
+FVector UAuraAbilitySystemLibrary::GetKnockbackForce(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(
+		EffectContextHandle.Get()))
+	{
+		return AuraContext->GetKnockbackForce();
+	}
+	return FVector();
+}
+
 void UAuraAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
@@ -292,14 +303,25 @@ void UAuraAbilitySystemLibrary::SetDamageType(FGameplayEffectContextHandle& Effe
 	}
 }
 
-void UAuraAbilitySystemLibrary::SetDeathImpluse(FGameplayEffectContextHandle& EffectContextHandle,
+void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle,
 	const FVector& InDeathImpluse)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
-		AuraContext->SetDeathImpluse(InDeathImpluse);
+		AuraContext->SetDeathImpulse(InDeathImpluse);
 	}
 }
+
+
+void UAuraAbilitySystemLibrary::SetKnockbackForce(FGameplayEffectContextHandle& EffectContextHandle,
+	const FVector& InKnockbackForce)
+{
+	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		AuraContext->SetKnockbackForce(InKnockbackForce);
+	}
+}
+
 
 
 void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject,
@@ -367,7 +389,8 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	FGameplayEffectContextHandle ContextHandle = Params.SourceAbilitySystemComponent->MakeEffectContext();
 	ContextHandle.AddSourceObject(Params.SourceAbilitySystemComponent->GetAvatarActor());
-	SetDeathImpluse(ContextHandle, Params.DeathImpulse);
+	SetDeathImpulse(ContextHandle, Params.DeathImpulse);
+	SetKnockbackForce(ContextHandle, Params.KnockbackForce);
 	
 	const FGameplayEffectSpecHandle SpecHandle = Params.SourceAbilitySystemComponent->MakeOutgoingSpec(
 		Params.DamageGameplayEffecClass, Params.AbilityLevel, ContextHandle);

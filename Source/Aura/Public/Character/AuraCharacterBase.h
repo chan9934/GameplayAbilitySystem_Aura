@@ -44,6 +44,7 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation()override;
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate()override;
 	virtual FOnDeath& GetOnDeathDelegate()override;
+	virtual void Knockback_Implementation(const FVector& KnockbackForce) override;
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;

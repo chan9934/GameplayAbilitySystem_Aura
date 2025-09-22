@@ -106,8 +106,9 @@ void UExecCalc_Damage::DetermineDebuff(const FGameplayEffectCustomExecutionParam
 
 			float TargetDebuffResistance = 0.f;
 			const FGameplayTag& ResistanceTag = GameplayTags.DamageTypesToResistance[DamageType];
-			ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().GetTagsToCaptureDefs()[ResistanceTag],
-			                                                           EvaluationParameters, TargetDebuffResistance);
+			ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
+				DamageStatics().GetTagsToCaptureDefs()[ResistanceTag],
+				EvaluationParameters, TargetDebuffResistance);
 			TargetDebuffResistance = FMath::Clamp(TargetDebuffResistance, 0.f, 100.f);
 
 			const float EffectiveDebuffChange = SourceDebuffChance * (100 - TargetDebuffResistance) / 100.f;
@@ -163,7 +164,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	// Debuff
 	DetermineDebuff(ExecutionParams, Spec, EvaluationParameters);
-
+	
 	// Get Damage Set by Caller Magnitude
 	float Damage = 0.f;
 
