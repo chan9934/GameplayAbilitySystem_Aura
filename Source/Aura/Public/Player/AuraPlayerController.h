@@ -13,6 +13,7 @@ class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
 class USplineComponent;
+class UNiagaraSystem;
 struct FInputActionValue;
 struct FGameplayTag;
 /**
@@ -75,6 +76,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
 	void AutoRun();
 
