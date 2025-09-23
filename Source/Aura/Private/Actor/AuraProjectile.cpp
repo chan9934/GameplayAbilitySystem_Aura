@@ -49,13 +49,20 @@ void AAuraProjectile::OnHit()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-	if (LoopingSoundComponent)LoopingSoundComponent->Stop();
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+	}
 	bHit = true;
 }
 
 void AAuraProjectile::Destroyed()
 {
 	// Client-side fallback: Play impact effects if not already hit due to network timing
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+	}
    	if (!bHit && !HasAuthority())
 	{
 		OnHit();
