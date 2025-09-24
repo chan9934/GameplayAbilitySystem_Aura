@@ -23,9 +23,12 @@ public:
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
 	UPROPERTY()
 	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
+	UPROPERTY(EditDefaultsOnly)
+	float MinDistancePerFrame = 10.f;
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 	void OnHit();
 	virtual void Destroyed() override;
 	UFUNCTION()
@@ -47,4 +50,8 @@ private:
 	TObjectPtr<USoundBase> LoopingSound;
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent ;
+
+	FVector LocationThisFrame;
+	FVector LocationLastFrame;
+	
 };
