@@ -223,10 +223,9 @@ FVector UAuraAbilitySystemLibrary::GetDeathImpluse(const FGameplayEffectContextH
 	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(
 		EffectContextHandle.Get()))
 	{
-			return AuraContext->GetDeathImpluse();
+		return AuraContext->GetDeathImpluse();
 	}
 	return FVector::ZeroVector;
-	
 }
 
 
@@ -267,7 +266,7 @@ void UAuraAbilitySystemLibrary::SetIsSuccessfulDebuff(FGameplayEffectContextHand
 }
 
 void UAuraAbilitySystemLibrary::SetDebuffDamage(FGameplayEffectContextHandle& EffectContextHandle,
-                                                   float InDebuffDamage)
+                                                float InDebuffDamage)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -304,7 +303,7 @@ void UAuraAbilitySystemLibrary::SetDamageType(FGameplayEffectContextHandle& Effe
 }
 
 void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle,
-	const FVector& InDeathImpluse)
+                                                const FVector& InDeathImpluse)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -314,14 +313,13 @@ void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& Ef
 
 
 void UAuraAbilitySystemLibrary::SetKnockbackForce(FGameplayEffectContextHandle& EffectContextHandle,
-	const FVector& InKnockbackForce)
+                                                  const FVector& InKnockbackForce)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		AuraContext->SetKnockbackForce(InKnockbackForce);
 	}
 }
-
 
 
 void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject,
@@ -352,6 +350,21 @@ void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldCo
 			OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetActor(OverlapActor));
 		}
 	}
+}
+
+void UAuraAbilitySystemLibrary::GetClosetTargets(int32 MaxTargets, const TArray<AActor*>& Actors,
+                                                 TArray<AActor*>& GetClosestTargets, const FVector& Origin)
+{
+	GetClosestTargets = Actors;
+	if (Actors.Num() <= MaxTargets)
+		return;
+	GetClosestTargets.Sort([Origin](const AActor& TargetA, const AActor& TargetB)
+	{
+		double DistanceA = FVector::DistSquared(TargetA.GetActorLocation(), Origin);
+		double DistanceB = FVector::DistSquared(TargetB.GetActorLocation(), Origin);
+		return DistanceA < DistanceB;
+	});
+	GetClosestTargets.SetNum(MaxTargets);
 }
 
 bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
@@ -391,7 +404,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	ContextHandle.AddSourceObject(Params.SourceAbilitySystemComponent->GetAvatarActor());
 	SetDeathImpulse(ContextHandle, Params.DeathImpulse);
 	SetKnockbackForce(ContextHandle, Params.KnockbackForce);
-	
+
 	const FGameplayEffectSpecHandle SpecHandle = Params.SourceAbilitySystemComponent->MakeOutgoingSpec(
 		Params.DamageGameplayEffecClass, Params.AbilityLevel, ContextHandle);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Params.DamageType, Params.BaseDamage);
@@ -409,13 +422,14 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	return ContextHandle;
 }
 
-TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
+TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis,
+                                                                 float Spread, int32 NumRotators)
 {
 	TArray<FRotator> Rotators;
-	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2,Axis);
-	if (NumRotators>1)
+	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2, Axis);
+	if (NumRotators > 1)
 	{
-		const float DeltaSpread = Spread / (NumRotators-1);
+		const float DeltaSpread = Spread / (NumRotators - 1);
 		for (int32 i = 0; i < NumRotators; i++)
 		{
 			const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, Axis);
@@ -430,13 +444,13 @@ TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& 
 }
 
 TArray<FVector> UAuraAbilitySystemLibrary::EvenlySpacedVectors(const FVector& Forward, const FVector& Axis,
-	float Spread, int32 NumVectors)
+                                                               float Spread, int32 NumVectors)
 {
 	TArray<FVector> Vectors;
-	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2,Axis);
-	if (NumVectors>1)
+	const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2, Axis);
+	if (NumVectors > 1)
 	{
-		const float DeltaSpread = Spread / (NumVectors-1);
+		const float DeltaSpread = Spread / (NumVectors - 1);
 		for (int32 i = 0; i < NumVectors; i++)
 		{
 			const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, Axis);

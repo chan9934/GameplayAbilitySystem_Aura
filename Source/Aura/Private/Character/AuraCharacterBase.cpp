@@ -174,6 +174,11 @@ USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
 	return Weapon;
 }
 
+FName AAuraCharacterBase::TipSocketName_Implementation()
+{
+	return WeaponTipSocketName;
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));

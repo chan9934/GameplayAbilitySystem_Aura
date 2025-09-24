@@ -91,6 +91,8 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	USkeletalMeshComponent* GetWeapon();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FName TipSocketName();
 	
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() = 0;
 	virtual FOnDeath& GetOnDeathDelegate() = 0;
