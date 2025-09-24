@@ -37,7 +37,7 @@ AAuraProjectile::AAuraProjectile()
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	//SetLifeSpan(LifeSpan);
+	SetLifeSpan(LifeSpan);
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent);
 	FTimerHandle SetCollisionHandle;
@@ -51,17 +51,12 @@ void AAuraProjectile::BeginPlay()
 void AAuraProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!ProjectileMovement->HomingTargetComponent.IsValid())
+	LocationLastFrame = LocationThisFrame;
+	LocationThisFrame = GetActorLocation();
+	if ((LocationThisFrame - LocationLastFrame).Length() <= MinDistancePerFrame)
 	{
-		LocationLastFrame = LocationThisFrame;
-		LocationThisFrame = GetActorLocation();
-		if ((LocationThisFrame - LocationLastFrame).Length() <= MinDistancePerFrame)
-		{
-			OnHit();
-			Destroy();
-		}
-
-	
+		OnHit();
+		Destroy();
 	}
 }
 
