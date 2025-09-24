@@ -45,6 +45,7 @@ public:
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate()override;
 	virtual FOnDeath& GetOnDeathDelegate()override;
 	virtual void Knockback_Implementation(const FVector& KnockbackForce) override;
+	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;

@@ -169,6 +169,11 @@ void AAuraCharacterBase::Knockback_Implementation(const FVector& KnockbackForce)
 	LaunchCharacter(KnockbackForce, true, true);
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));

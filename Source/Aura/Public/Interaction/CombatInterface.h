@@ -10,6 +10,7 @@
 class UNiagaraSystem;
 class UAnimMontage;
 class UAbilitySystemComponent;
+class USkeletalMeshComponent;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*)
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
@@ -87,6 +88,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetInShockLoop(bool bInLoop);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USkeletalMeshComponent* GetWeapon();
 	
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() = 0;
 	virtual FOnDeath& GetOnDeathDelegate() = 0;
