@@ -21,10 +21,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
-	UPROPERTY()
+    UPROPERTY()
 	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
 	UPROPERTY(EditDefaultsOnly)
 	float MinDistancePerFrame = 10.f;
+	UFUNCTION(NetMulticast, Reliable)
+	void SetHomingData(USceneComponent* InHomingTargetComponent, FVector InProjectileTargetLocation, float InHomingAccelerationMagnitude);
 
 protected:
 	virtual void BeginPlay() override;

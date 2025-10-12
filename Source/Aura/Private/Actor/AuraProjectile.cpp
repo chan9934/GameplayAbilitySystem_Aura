@@ -12,6 +12,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Logging/StructuredLog.h"
+#include "Net/UnrealNetwork.h"
 
 AAuraProjectile::AAuraProjectile()
 {
@@ -34,6 +35,25 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
+void AAuraProjectile::SetHomingData_Implementation(USceneComponent* InHomingTargetComponent,
+                                                   FVector InProjectileTargetLocation,
+                                                   float InHomingAccelerationMagnitude)
+{
+	if (InHomingTargetComponent == nullptr)
+	{
+		HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+		HomingTargetSceneComponent->SetWorldLocation(InProjectileTargetLocation);
+		ProjectileMovement->HomingTargetComponent = HomingTargetSceneComponent;
+	}
+	else
+	{
+		ProjectileMovement->HomingTargetComponent = InHomingTargetComponent;
+	}
+
+	ProjectileMovement->HomingAccelerationMagnitude = InHomingAccelerationMagnitude;
+	ProjectileMovement->bIsHomingProjectile = true;
+}
+
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
@@ -46,6 +66,36 @@ void AAuraProjectile::BeginPlay()
 		                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	                                       },
 	                                       0.1f, false);
+
+	const bool bIsServer = HasAuthority();
+	const FString NetRoleStr = bIsServer ? TEXT("SERVER") : TEXT("CLIENT");
+
+	if (ProjectileMovement)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[%s] ProjectileMovement info:"), *NetRoleStr);
+		UE_LOG(LogTemp, Warning, TEXT(" - bIsHomingProjectile: %s"),
+		       ProjectileMovement->bIsHomingProjectile ? TEXT("true") : TEXT("false"));
+		UE_LOG(LogTemp, Warning, TEXT(" - HomingAccelerationMagnitude: %.2f"),
+		       ProjectileMovement->HomingAccelerationMagnitude);
+
+		if (ProjectileMovement->HomingTargetComponent.IsValid())
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent: %s"),
+			       *ProjectileMovement->HomingTargetComponent->GetName());
+
+			const FVector TargetLoc =
+				ProjectileMovement->HomingTargetComponent->GetComponentLocation();
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent Location: %s"), *TargetLoc.ToString());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent: NULL "));
+		}
+		UE_LOG(LogTemp, Warning, TEXT("HomingAccelerationMagnitude : %f"),
+		       ProjectileMovement->HomingAccelerationMagnitude);
+		UE_LOG(LogTemp, Warning, TEXT("ishomingprojectile : %s"),
+		       ProjectileMovement->bIsHomingProjectile ? TEXT("true") : TEXT("false"));
+	}
 }
 
 void AAuraProjectile::Tick(float DeltaTime)

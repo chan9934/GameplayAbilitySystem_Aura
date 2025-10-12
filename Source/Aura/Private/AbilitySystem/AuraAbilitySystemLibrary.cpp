@@ -398,6 +398,7 @@ int32 UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* Worl
 
 FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& Params)
 {
+	if (Params.SourceAbilitySystemComponent && !Params.SourceAbilitySystemComponent->GetAvatarActor()->HasAuthority())return FGameplayEffectContextHandle();
 	if (!Params.TargetAbilitySystemComponent)return FGameplayEffectContextHandle();
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	FGameplayEffectContextHandle ContextHandle = Params.SourceAbilitySystemComponent->MakeEffectContext();
