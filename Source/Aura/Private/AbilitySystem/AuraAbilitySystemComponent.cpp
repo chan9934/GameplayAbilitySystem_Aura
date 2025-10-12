@@ -67,7 +67,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
-			//AbilitySpecInputPressed(AbilitySpec);
+			//UE_LOG(LogTemp, Warning, TEXT("Dynamic : %s"), *AbilitySpec.Ability.GetName());
 			if (!AbilitySpec.IsActive())
 			{
 				TryActivateAbility(AbilitySpec.Handle);
