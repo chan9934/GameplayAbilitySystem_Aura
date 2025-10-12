@@ -161,6 +161,26 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+void AAuraCharacter::OnRep_Stunned()
+{
+	check(AbilitySystemComponent);
+	const FAuraGameplayTags& GameplayTag = FAuraGameplayTags::Get();
+	FGameplayTagContainer BlockedTags;
+	BlockedTags.AddTag(GameplayTag.Player_Block_CursorTrace);
+	BlockedTags.AddTag(GameplayTag.Player_Block_InputHeld);
+	BlockedTags.AddTag(GameplayTag.Player_Block_InputPressed);
+	BlockedTags.AddTag(GameplayTag.Player_Block_InputReleased);
+
+	if (bIsStunned)
+	{
+		AbilitySystemComponent->AddLooseGameplayTags(BlockedTags);
+	}
+	else
+	{
+		AbilitySystemComponent->RemoveLooseGameplayTags(BlockedTags);
+	}
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();

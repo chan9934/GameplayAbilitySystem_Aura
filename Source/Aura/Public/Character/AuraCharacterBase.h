@@ -59,8 +59,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
-	UPROPERTY(Replicated, BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing = OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
+	UFUNCTION()
+	virtual void OnRep_Stunned();
 
 protected:
 	virtual void BeginPlay() override;
