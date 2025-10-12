@@ -71,6 +71,8 @@ bool UAuraBeamSpell::ApplyPeriodicCostGE()
 {
 	UAbilitySystemComponent* TargetASC = GetAbilitySystemComponentFromActorInfo();
 	if (!IsValid(TargetASC)) return false;
+
+	
 	FGameplayEffectContextHandle ContextHandle = TargetASC->MakeEffectContext();
 	ContextHandle.AddSourceObject(TargetASC->GetAvatarActor());
 	FGameplayEffectSpecHandle SpecHandle = TargetASC->MakeOutgoingSpec(CostGameplayEffectClass, GetAbilityLevel(),
@@ -90,6 +92,11 @@ void UAuraBeamSpell::EndAbility(const FGameplayAbilitySpecHandle Handle, const F
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 
+	
+	if (GetAvatarActorFromActorInfo()->HasAuthority())
+	{	UE_LOG(LogTemp, Warning, TEXT("Server"));}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Client"));
 	UAbilitySystemComponent* TargetASC = GetAbilitySystemComponentFromActorInfo();
 	if (!IsValid(TargetASC)) return;
 	TargetASC->OnPeriodicGameplayEffectExecuteDelegateOnSelf.RemoveAll(this);
