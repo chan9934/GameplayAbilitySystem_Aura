@@ -80,6 +80,10 @@ public:
 	
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Abilities_Lightning_Electrocute;
+
+	FGameplayTag Abilities_Passive_LifeSiphon;
+	FGameplayTag Abilities_Passive_ManaSiphon;
+	FGameplayTag Abilities_Passive_HalfOfProtection;
 	
 	FGameplayTag Cooldown_Fire_FireBolt;
 

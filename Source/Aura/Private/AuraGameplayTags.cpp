@@ -114,6 +114,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	
 	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Fire.FireBolt"), TEXT("FireBolt Ability Tag"));
 	GameplayTags.Abilities_Lightning_Electrocute = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Lightning.Electrocute"), TEXT("Electrocute Ability Tag"));
+
+	GameplayTags.Abilities_Passive_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Passive.LifeSiphon"), TEXT("Life Siphon"));
+	GameplayTags.Abilities_Passive_ManaSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Passive.ManaSiphon"), TEXT("Mana Siphon"));
+	GameplayTags.Abilities_Passive_HalfOfProtection = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.Passive.HalfOfProtection"), TEXT("Half Of Protection"));
 	
 	GameplayTags.Abilities_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Abilities.HitReact"), TEXT("Hit React Ability"));
 	
