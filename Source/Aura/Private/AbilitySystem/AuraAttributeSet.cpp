@@ -95,7 +95,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
 
-	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(Props.TargetCharacter.Get())) return;
+	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(
+		Props.TargetCharacter.Get())) return;
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -133,15 +134,18 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 			{
 				const FVector DeathImpulse = UAuraAbilitySystemLibrary::GetDeathImpluse(Props.EffectContextHandle);
 				CombatInterface->Die(DeathImpulse);
-				
 			}
 			SendXPEvent(Props);
 		}
 		else
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
-			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			if (Props.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(
+				Props.TargetCharacter.Get()))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 
 			const FVector& KnockbackForce = UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
 			if (!KnockbackForce.IsNearlyZero(10.f))
@@ -158,7 +162,6 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		{
 			Debuff(Props);
 		}
-
 	}
 }
 
@@ -213,7 +216,8 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	Effect->Period = DebuffFrequency;
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 
-	UTargetTagsGameplayEffectComponent& AssetTagsComponent = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
+	UTargetTagsGameplayEffectComponent& AssetTagsComponent = Effect->FindOrAddComponent<
+		UTargetTagsGameplayEffectComponent>();
 	FInheritedTagContainer InHeritedTagContainer;
 
 	FGameplayTag DebuffTag = GameplayTags.DamageTypesToDebuffs[DamageType];
@@ -226,9 +230,9 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		InHeritedTagContainer.Added.AddTag(GameplayTags.Player_Block_InputPressed);
 		InHeritedTagContainer.Added.AddTag(GameplayTags.Player_Block_InputReleased);
 	}
-	
+
 	AssetTagsComponent.SetAndApplyTargetTagChanges(InHeritedTagContainer);
-	
+
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;
 
@@ -250,6 +254,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 	}
 }
+
 void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);

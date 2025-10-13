@@ -93,6 +93,10 @@ public:
 	USkeletalMeshComponent* GetWeapon();
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FName TipSocketName();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsBeingShocked();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetIsBeingShocked(bool bInShock);
 	
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() = 0;
 	virtual FOnDeath& GetOnDeathDelegate() = 0;
