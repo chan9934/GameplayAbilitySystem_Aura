@@ -154,16 +154,19 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 	
 		if (bLaunchHomingProjectiles && IsValid(HomingTarget))
 		{
-			float HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin, HomingAccelerationMax);
 			if (HomingTarget->Implements<UCombatInterface>())
 			{
-				Projectile->SetHomingData(HomingTarget->GetRootComponent(), FVector(), HomingAccelerationMagnitude);
+				Projectile->ProjectileMovement->HomingTargetComponent = HomingTarget->GetRootComponent();
 			}
 			else
 			{
-				Projectile->SetHomingData(nullptr, ProjectileTargetLocation, HomingAccelerationMagnitude);
-				
+				Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+				Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+				Projectile->ProjectileMovement->HomingTargetComponent = Projectile->HomingTargetSceneComponent;				
 			}
+			
+			Projectile->ProjectileMovement->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin, HomingAccelerationMax);
+			Projectile->ProjectileMovement->bIsHomingProjectile = bLaunchHomingProjectiles;
 		}
 		Projectile->FinishSpawning(SpawnTransform);
 	}

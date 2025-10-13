@@ -19,6 +19,7 @@ AAuraProjectile::AAuraProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.TickInterval = 0.2f;
 	bReplicates = true;
+	SetReplicateMovement(true);
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 
 	RootComponent = Sphere;
@@ -35,24 +36,6 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
-void AAuraProjectile::SetHomingData_Implementation(USceneComponent* InHomingTargetComponent,
-                                                   FVector InProjectileTargetLocation,
-                                                   float InHomingAccelerationMagnitude)
-{
-	if (InHomingTargetComponent == nullptr)
-	{
-		HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
-		HomingTargetSceneComponent->SetWorldLocation(InProjectileTargetLocation);
-		ProjectileMovement->HomingTargetComponent = HomingTargetSceneComponent;
-	}
-	else
-	{
-		ProjectileMovement->HomingTargetComponent = InHomingTargetComponent;
-	}
-
-	ProjectileMovement->HomingAccelerationMagnitude = InHomingAccelerationMagnitude;
-	ProjectileMovement->bIsHomingProjectile = true;
-}
 
 void AAuraProjectile::BeginPlay()
 {
