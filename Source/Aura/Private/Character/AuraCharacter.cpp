@@ -130,6 +130,22 @@ void AAuraCharacter::SetLevel_Implementation(int32 NewLevel)
 	MulticastLevelUpParticles();
 }
 
+void AAuraCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
+{
+	if(AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>())
+	{
+		AuraPlayerController->ShowMagicCircle(DecalMaterial);
+	}
+}
+
+void AAuraCharacter::HideMagicCircle_Implementation()
+{
+	if(AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>())
+	{
+		AuraPlayerController->HideMagicCircle();
+	}
+}
+
 
 void AAuraCharacter::MulticastLevelUpParticles_Implementation()
 {

@@ -26,11 +26,18 @@ AAuraPlayerController::AAuraPlayerController()
 	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
 }
 
-void AAuraPlayerController::ShowMagicCircle()
+void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 {
 	if (!IsValid(MagicCircle))
 	{
-		GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+		MagicCircle = GetWorld()->SpawnActorDeferred<AMagicCircle>(MagicCircleClass, FTransform());
+		if (DecalMaterial != nullptr)
+			MagicCircle->ChangeMaterial(DecalMaterial);
+		MagicCircle->FinishSpawning(FTransform());
+	}
+	else if (DecalMaterial != nullptr)
+	{
+		MagicCircle->ChangeMaterial(DecalMaterial);
 	}
 }
 
@@ -39,16 +46,19 @@ void AAuraPlayerController::HideMagicCircle()
 	if (IsValid(MagicCircle))
 	{
 		MagicCircle->Destroy();
+		MagicCircle = nullptr;
 	}
 }
 
-void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter,
+                                                            bool bBlockedHit, bool bCriticalHit)
 {
 	if (IsValid(TargetCharacter) && DamageTextComponentClass)
 	{
 		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
 		DamageText->RegisterComponent();
-		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(),
+		                              FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		DamageText->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);
 	}
@@ -91,6 +101,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
 	AutoRun();
+	UpdateMagicCircleLocation();
 }
 
 void AAuraPlayerController::AutoRun()
@@ -197,7 +208,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 5, 12, FColor::White, false, 3.f );
+					DrawDebugSphere(GetWorld(), PointLoc, 5, 12, FColor::White, false, 3.f);
 				}
 				CachedDestination = NavPath->PathPoints.Last();
 				bAutoRunning = true;
