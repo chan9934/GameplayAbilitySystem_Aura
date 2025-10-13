@@ -12,6 +12,7 @@
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Actor/MagicCircle.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "Input/AuraInputComponent.h"
@@ -23,6 +24,22 @@ AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
 	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
+}
+
+void AAuraPlayerController::ShowMagicCircle()
+{
+	if (!IsValid(MagicCircle))
+	{
+		GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+	}
+}
+
+void AAuraPlayerController::HideMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->Destroy();
+	}
 }
 
 void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
@@ -89,6 +106,14 @@ void AAuraPlayerController::AutoRun()
 
 		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
 		if (DistanceToDestination <= AutoRunAcceptanceRadius) bAutoRunning = false;
+	}
+}
+
+void AAuraPlayerController::UpdateMagicCircleLocation()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
 	}
 }
 
