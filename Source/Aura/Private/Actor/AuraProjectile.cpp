@@ -9,17 +9,22 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/AudioComponent.h"
+#include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Logging/StructuredLog.h"
+#include "Net/UnrealNetwork.h"
 
 AAuraProjectile::AAuraProjectile()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.TickInterval = 0.2f;
 	bReplicates = true;
+	SetReplicateMovement(true);
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 
-		RootComponent = Sphere;
+	RootComponent = Sphere;
 	Sphere->SetCollisionObjectType(ECC_Projectile);
-	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
@@ -31,21 +36,84 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
+
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	SetLifeSpan(LifeSpan);
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent);
+	FTimerHandle SetCollisionHandle;
+	GetWorld()->GetTimerManager().SetTimer(SetCollisionHandle, [this]()
+	                                       {
+		                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	                                       },
+	                                       0.1f, false);
+
+	const bool bIsServer = HasAuthority();
+	const FString NetRoleStr = bIsServer ? TEXT("SERVER") : TEXT("CLIENT");
+
+	if (ProjectileMovement)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[%s] ProjectileMovement info:"), *NetRoleStr);
+		UE_LOG(LogTemp, Warning, TEXT(" - bIsHomingProjectile: %s"),
+		       ProjectileMovement->bIsHomingProjectile ? TEXT("true") : TEXT("false"));
+		UE_LOG(LogTemp, Warning, TEXT(" - HomingAccelerationMagnitude: %.2f"),
+		       ProjectileMovement->HomingAccelerationMagnitude);
+
+		if (ProjectileMovement->HomingTargetComponent.IsValid())
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent: %s"),
+			       *ProjectileMovement->HomingTargetComponent->GetName());
+
+			const FVector TargetLoc =
+				ProjectileMovement->HomingTargetComponent->GetComponentLocation();
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent Location: %s"), *TargetLoc.ToString());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" - HomingTargetComponent: NULL "));
+		}
+		UE_LOG(LogTemp, Warning, TEXT("HomingAccelerationMagnitude : %f"),
+		       ProjectileMovement->HomingAccelerationMagnitude);
+		UE_LOG(LogTemp, Warning, TEXT("ishomingprojectile : %s"),
+		       ProjectileMovement->bIsHomingProjectile ? TEXT("true") : TEXT("false"));
+	}
+}
+
+void AAuraProjectile::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	LocationLastFrame = LocationThisFrame;
+	LocationThisFrame = GetActorLocation();
+	if ((LocationThisFrame - LocationLastFrame).Length() <= MinDistancePerFrame)
+	{
+		OnHit();
+		Destroy();
+	}
+}
+
+void AAuraProjectile::OnHit()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+	}
+	bHit = true;
 }
 
 void AAuraProjectile::Destroyed()
 {
+	// Client-side fallback: Play impact effects if not already hit due to network timing
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+	}
 	if (!bHit && !HasAuthority())
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		if (LoopingSoundComponent)LoopingSoundComponent->Stop();
+		OnHit();
 	}
 	Super::Destroyed();
 }
@@ -54,32 +122,32 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                       const FHitResult& SweepResult)
 {
-	if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
-	{
-		return;
-	}
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
-	{
-		return;
-	}
-	if (!bHit)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		if (LoopingSoundComponent) LoopingSoundComponent->Stop();
-	}
-
+	if (!DamageEffectParams.SourceAbilitySystemComponent)return;
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor)return;
+	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))return;
+	if (!bHit)OnHit();
 	if (HasAuthority())
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
+			DamageEffectParams.DeathImpulse = DeathImpulse;
+			const bool bKnockback = FMath::RandRange(1, 100) < DamageEffectParams.KnockbackChange;
+			if (bKnockback)
+			{
+				FRotator Rotation = GetActorRotation();
+				Rotation.Pitch = 45.f;
+
+				const FVector KnockbackDirection = Rotation.Vector();
+				const FVector KnockbackForce = KnockbackDirection * DamageEffectParams.KnockbackMagnitude;
+				DamageEffectParams.KnockbackForce = KnockbackForce;
+			}
+
+			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 
 		Destroy();
-	}
-	else
-	{
-		bHit = true;
 	}
 }

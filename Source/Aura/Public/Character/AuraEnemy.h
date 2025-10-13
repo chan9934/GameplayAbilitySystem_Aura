@@ -7,7 +7,6 @@
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/EnemyInterface.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
@@ -25,6 +24,7 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 public:
 	AAuraEnemy();
 	virtual void BeginPlay() override;
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 	virtual void PossessedBy(AController* NewController) override;
 
 	/** Enemy Interface */
@@ -33,10 +33,10 @@ public:
 	/** end Enemy Interface */
 	
 	/** Combat Interface */
-	virtual int32 GetPlayerLevel() override;
-	virtual void Die()override;
-	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget);
-	virtual AActor* GetCombatTarget_Implementation();
+	virtual int32 GetLevel_Implementation()const override;
+	virtual void Die(const FVector& DeathImpulse)override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget)override;
+	virtual AActor* GetCombatTarget_Implementation()override;
 	/** end Combat Interface */
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
@@ -53,16 +53,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
-	float BaseWalkSpeed = 250.f;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
-	float LifeSpan;
+	float LifeSpan = 5.f;
 
 protected:
 	virtual void InitAbilityActorInfo()override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

@@ -3,11 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Player/AuraPlayerController.h"
 #include "UObject/NoExportTypes.h"
 #include "AuraWidgetController.generated.h"
 
+class APlayerController;
+class APlayerState;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class AAuraPlayerController;
+class AAuraPlayerState;
+class UAuraAbilitySystemComponent;
+class UAuraAttributeSet;
+class UAbilityInfo;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnIntDataChangedSignature, int32, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FAuraAbilityInfo&, Info);
 
 USTRUCT(BlueprintType)
 struct FWidgetControllerParams
@@ -17,19 +28,21 @@ struct FWidgetControllerParams
 	{
 	}
 
-	FWidgetControllerParams(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS) 
-		: PlayerController(PC), PlayerState(PS), AbilitySystemComponent(ASC), AttributeSet(AS)
+	FWidgetControllerParams(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
+	
+	FWidgetControllerParams(AAuraPlayerController* PC, AAuraPlayerState* PS, UAuraAbilitySystemComponent* ASC, UAuraAttributeSet* AS) 
+		: AuraPlayerController(PC), AuraPlayerState(PS), AuraAbilitySystemComponent(ASC), AuraAttributeSet(AS)
 	{
 	}
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<APlayerController> PlayerController = nullptr;
+	TObjectPtr<AAuraPlayerController> AuraPlayerController = nullptr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<APlayerState> PlayerState = nullptr;
+	TObjectPtr<AAuraPlayerState> AuraPlayerState = nullptr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet = nullptr;
 };
 
 UCLASS()
@@ -42,13 +55,23 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
+	
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+	FAbilityInfoSignature AbilityInfoDelegate;
+
+	void BraodcastAbilityInfo();
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
-	TObjectPtr<APlayerController> PlayerController;
+	TObjectPtr<AAuraPlayerController> AuraPlayerController;
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
-	TObjectPtr<APlayerState> PlayerState;
+	TObjectPtr<AAuraPlayerState> AuraPlayerState;
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
+
+	
 };
