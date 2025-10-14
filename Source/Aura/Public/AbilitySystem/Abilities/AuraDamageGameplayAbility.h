@@ -11,12 +11,6 @@
 /**
  * 
  */
-UENUM(BlueprintType)
-enum class EImpulseDirectionType : uint8
-{
-	UpVector,
-	CauserDirection
-};
 UCLASS()
 class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 {
@@ -26,7 +20,15 @@ public:
 	void CauseDamage(AActor* TargetActor);
 
 	UFUNCTION(BlueprintPure)
-	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(
+		AActor* TargetActor = nullptr
+		, FVector InRadialDamageOrigin = FVector::ZeroVector
+		, bool bOverrideKnockbackDirection = false
+		, FVector KnockbackDirecionOverride = FVector::ZeroVector
+		, bool bOverrideDeathImpulse = false
+		, FVector DeathImpulseDirectionOverride = FVector::ZeroVector
+		, bool bOverridePitch = false
+		, float PitchOverride = 45.f) const;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
@@ -46,8 +48,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DeathImpulseMagnitude = 1000.f;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-	EImpulseDirectionType ImpulseDirectionType = EImpulseDirectionType::CauserDirection;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float KnockbackChance = 0.f;
