@@ -36,14 +36,20 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 
 	Params.KnockbackChance = KnockbackChance;
 	Params.KnockbackMagnitude = KnockbackForceMagnitude;
-	if (IsValid(TargetActor))
+
+	FVector ToTarget = FVector::ZeroVector;
+	if (ImpulseDirectionType == EImpulseDirectionType::CauserDirection && IsValid(TargetActor))
 	{
 		FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
-		//Rotation.Pitch = 45.f;
-		const FVector ToTarget = Rotation.Vector();
-		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
-		Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
+		Rotation.Pitch = 45.f;
+		ToTarget = Rotation.Vector();
 	}
+	else if (ImpulseDirectionType == EImpulseDirectionType::UpVector)
+	{
+		ToTarget = FVector::UpVector;
+	}
+	Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
+	Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
 
 	if (bIsRadialDamage)
 	{

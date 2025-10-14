@@ -11,6 +11,12 @@
 /**
  * 
  */
+UENUM(BlueprintType)
+enum class EImpulseDirectionType : uint8
+{
+	UpVector,
+	CauserDirection
+};
 UCLASS()
 class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 {
@@ -39,6 +45,9 @@ protected:
 	float DebuffDuration = 5.f;
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DeathImpulseMagnitude = 1000.f;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	EImpulseDirectionType ImpulseDirectionType = EImpulseDirectionType::CauserDirection;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float KnockbackChance = 0.f;
