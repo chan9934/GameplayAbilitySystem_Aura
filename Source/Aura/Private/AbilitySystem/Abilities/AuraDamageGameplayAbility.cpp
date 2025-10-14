@@ -39,10 +39,10 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	if (IsValid(TargetActor))
 	{
 		FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
-		Rotation.Pitch = 45.f;
+		//Rotation.Pitch = 45.f;
 		const FVector ToTarget = Rotation.Vector();
-		Params.DeathImpulse = ToTarget * Params.DeathImpulseMagnitude;
-		Params.KnockbackForce = ToTarget * Params.KnockbackMagnitude;
+		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
+		Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
 	}
 
 	if (bIsRadialDamage)
@@ -50,7 +50,6 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 		Params.bIsRadialDamage = bIsRadialDamage;
 		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
 		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;
-		Params.RadialDamageOrigin = RadialDamageOrigin;
 	}
 	
 	return  Params;

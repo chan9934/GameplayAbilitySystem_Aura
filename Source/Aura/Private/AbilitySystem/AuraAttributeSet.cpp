@@ -149,7 +149,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 			}
 
 			const FVector& KnockbackForce = UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
-			if (!KnockbackForce.IsNearlyZero(10.f))
+			if (!KnockbackForce.IsNearlyZero(1.f))
 			{
 				if (Props.TargetCharacter->Implements<UCombatInterface>())
 					ICombatInterface::Execute_Knockback(Props.TargetCharacter.Get(), KnockbackForce);
