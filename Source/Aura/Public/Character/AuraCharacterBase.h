@@ -19,6 +19,7 @@ class UAnimMontage;
 class UDebuffNiagaraComponent;
 class UPassiveNiagaraComponent;
 
+
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
@@ -28,6 +29,7 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
 
@@ -51,9 +53,11 @@ public:
 	virtual FName TipSocketName_Implementation() override;
 	virtual bool IsBeingShocked_Implementation() override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
+	virtual FOnDamageSignature& GetOnDamageSignature()override;
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;
+	FOnDamageSignature OnDamageDelegate;
 	/* end Combat Interface*/
 
 	UFUNCTION(NetMulticast, Reliable)
