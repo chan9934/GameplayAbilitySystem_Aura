@@ -39,6 +39,7 @@ void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 	{
 		MagicCircle->ChangeMaterial(DecalMaterial);
 	}
+	bShowMouseCursor = false;
 }
 
 void AAuraPlayerController::HideMagicCircle()
@@ -48,6 +49,7 @@ void AAuraPlayerController::HideMagicCircle()
 		MagicCircle->Destroy();
 		MagicCircle = nullptr;
 	}
+	bShowMouseCursor = true;
 }
 
 void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter,
