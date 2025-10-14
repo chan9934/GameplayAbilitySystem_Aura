@@ -164,4 +164,6 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> EffectAttachComponent;
+
+	void CollisionSetting();
 };

@@ -127,6 +127,7 @@ void AAuraCharacterBase::OnRep_Burned()
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	CollisionSetting();
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()
@@ -290,4 +291,15 @@ void AAuraCharacterBase::Dissolve()
 		DynamicMatInstances.Add(DynamicMatInst);
 	}
 	StartDissolveTimeline(DynamicMatInstances);
+}
+
+void AAuraCharacterBase::CollisionSetting()
+{
+	for(UActorComponent* Child : GetComponents())
+	{
+		if (UPrimitiveComponent* PrimitiveChild = Cast<UPrimitiveComponent>(Child))
+		{
+			PrimitiveChild->SetCollisionResponseToChannel(ECC_ExecludePlayers, ECR_Ignore );
+		}
+	}
 }

@@ -21,4 +21,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
+	protected:
+	virtual void BeginPlay() override;
+
+private:
+	void SetBlockingVolumeCollisionSetting();
 };
