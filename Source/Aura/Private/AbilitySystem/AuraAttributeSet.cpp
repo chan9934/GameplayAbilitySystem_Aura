@@ -96,7 +96,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	SetEffectProperties(Data, Props);
 
 	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(
-		Props.TargetCharacter.Get())) return;
+		Props.TargetCharacter.Get()))
+		return;
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -182,14 +183,16 @@ void UAuraAttributeSet::HandleIncomingXP(const FEffectProperties& Props)
 		if (NumLevelUps > 0)
 		{
 			IPlayerInterface::Execute_SetLevel(Props.SourceCharacter.Get(), NewLevel);
-			
+
 			int32 AttributePointsReward = 0;
 			int32 SpellPointsReward = 0;
 
-			for (int32 i = 0 ; i < NumLevelUps ; i++)
+			for (int32 i = 0; i < NumLevelUps; i++)
 			{
-				SpellPointsReward += IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter.Get(), CurrentLevel + i);
-				AttributePointsReward += IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter.Get(), CurrentLevel + i);
+				SpellPointsReward += IPlayerInterface::Execute_GetSpellPointsReward(
+					Props.SourceCharacter.Get(), CurrentLevel + i);
+				AttributePointsReward += IPlayerInterface::Execute_GetAttributePointsReward(
+					Props.SourceCharacter.Get(), CurrentLevel + i);
 			}
 
 			IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter.Get(), AttributePointsReward);

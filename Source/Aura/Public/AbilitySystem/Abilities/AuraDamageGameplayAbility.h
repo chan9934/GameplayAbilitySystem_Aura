@@ -41,7 +41,7 @@ protected:
 	float DeathImpulseMagnitude = 1000.f;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-	float KnockbackChange = 0.f;
+	float KnockbackChance = 0.f;
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float KnockbackForceMagnitude = 1000.f;
 

@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Aura/AuraLogChannels.h"
 
 
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
@@ -33,7 +34,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	Params.DebuffDuration = DebuffDuration;
 	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
 
-	Params.KnockbackChange = KnockbackChange;
+	Params.KnockbackChance = KnockbackChance;
 	Params.KnockbackMagnitude = KnockbackForceMagnitude;
 	if (IsValid(TargetActor))
 	{
