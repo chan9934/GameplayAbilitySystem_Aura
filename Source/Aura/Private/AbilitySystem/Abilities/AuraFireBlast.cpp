@@ -1,9 +1,9 @@
 // Copyright KimDongChan
 
 
-#include "AbilitySystem/Abilities/AuraFireblast.h"
+#include "AbilitySystem/Abilities/AuraFireBlast.h"
 
-FString UAuraFireblast::GetDescription(int32 Level)
+FString UAuraFireBlast::GetDescription(int32 Level)
 {
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = GetManaCost(Level);
@@ -35,7 +35,7 @@ FString UAuraFireblast::GetDescription(int32 Level)
 						   ScaledDamage);
 }
 
-FString UAuraFireblast::GetNextLevelDescription(int32 Level)
+FString UAuraFireBlast::GetNextLevelDescription(int32 Level)
 {
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 	const float ManaCost = GetManaCost(Level);
@@ -65,4 +65,9 @@ FString UAuraFireblast::GetNextLevelDescription(int32 Level)
 						   Cooldown,
 						   NumFireBalls,
 						   ScaledDamage);
+}
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
 }
