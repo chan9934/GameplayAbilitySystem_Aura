@@ -16,7 +16,8 @@ class AURA_API AAuraProjectile : public AActor
 
 public:
 	AAuraProjectile();
-	
+
+	UPROPERTY(BlueprintReadOnly)
 	FDamageEffectParams DamageEffectParams;
 
 	UPROPERTY(VisibleAnywhere)
@@ -29,6 +30,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable)
 	void OnHit();
 	virtual void Destroyed() override;
 	UFUNCTION()

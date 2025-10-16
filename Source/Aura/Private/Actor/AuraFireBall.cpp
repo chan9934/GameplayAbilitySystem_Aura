@@ -6,6 +6,11 @@
 void AAuraFireBall::BeginPlay()
 {
 	Super::BeginPlay();
+	StartOutgoingTimeline();
+}
+
+void AAuraFireBall::Tick(float DeltaTime)
+{
 }
 
 void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
