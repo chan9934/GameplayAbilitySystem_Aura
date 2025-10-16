@@ -46,7 +46,8 @@ void AAuraProjectile::BeginPlay()
 	FTimerHandle SetCollisionHandle;
 	GetWorld()->GetTimerManager().SetTimer(SetCollisionHandle, [this]()
 	                                       {
-		                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		                                       if (IsValid(Sphere))
+			                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	                                       },
 	                                       0.1f, false);
 

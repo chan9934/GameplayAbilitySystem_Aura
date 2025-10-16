@@ -363,7 +363,7 @@ void UAuraAbilitySystemLibrary::SetKnockbackForce(FGameplayEffectContextHandle& 
 }
 
 void UAuraAbilitySystemLibrary::SetIsRadialDamage(FGameplayEffectContextHandle& EffectContextHandle,
-	bool bIsRadialDamage)
+                                                  bool bIsRadialDamage)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -372,7 +372,7 @@ void UAuraAbilitySystemLibrary::SetIsRadialDamage(FGameplayEffectContextHandle& 
 }
 
 void UAuraAbilitySystemLibrary::SetRadialDamageInnerRadius(FGameplayEffectContextHandle& EffectContextHandle,
-	float RadialDamageInnerRadius)
+                                                           float RadialDamageInnerRadius)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -381,7 +381,7 @@ void UAuraAbilitySystemLibrary::SetRadialDamageInnerRadius(FGameplayEffectContex
 }
 
 void UAuraAbilitySystemLibrary::SetRadialDamageOuterRadius(FGameplayEffectContextHandle& EffectContextHandle,
-	float RadialDamageOuterRadius)
+                                                           float RadialDamageOuterRadius)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -390,7 +390,7 @@ void UAuraAbilitySystemLibrary::SetRadialDamageOuterRadius(FGameplayEffectContex
 }
 
 void UAuraAbilitySystemLibrary::SetRadialDamageOrigin(FGameplayEffectContextHandle& EffectContextHandle,
-	const FVector& RadialDamageOrigin)
+                                                      const FVector& RadialDamageOrigin)
 {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -475,7 +475,8 @@ int32 UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* Worl
 
 FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& Params)
 {
-	if (Params.SourceAbilitySystemComponent && !Params.SourceAbilitySystemComponent->GetAvatarActor()->HasAuthority())return FGameplayEffectContextHandle();
+	if (Params.SourceAbilitySystemComponent && !Params.SourceAbilitySystemComponent->GetAvatarActor()->HasAuthority())
+		return FGameplayEffectContextHandle();
 	if (!Params.TargetAbilitySystemComponent)return FGameplayEffectContextHandle();
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	FGameplayEffectContextHandle ContextHandle = Params.SourceAbilitySystemComponent->MakeEffectContext();
@@ -546,4 +547,37 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlySpacedVectors(const FVector& Fo
 		Vectors.Add(Forward);
 	}
 	return Vectors;
+}
+
+void UAuraAbilitySystemLibrary::SetIsRadialDamageEffectParam(FDamageEffectParams& DamageEffectParams, bool bIsRadial,
+                                                             float InnerRadius, float OuterRadius, FVector Origin)
+{
+	DamageEffectParams.bIsRadialDamage = bIsRadial;
+	DamageEffectParams.RadialDamageInnerRadius = InnerRadius;
+	DamageEffectParams.RadialDamageOuterRadius = OuterRadius;
+	DamageEffectParams.RadialDamageOrigin = Origin;
+}
+
+void UAuraAbilitySystemLibrary::SetKnockbackDirection(FDamageEffectParams& DamageEffectParams,
+                                                      FVector KnockbackDireciton, float Magnitude)
+{
+	KnockbackDireciton.Normalize();
+	if (Magnitude != 0.f)
+		DamageEffectParams.KnockbackMagnitude = Magnitude;
+	DamageEffectParams.KnockbackForce = KnockbackDireciton * DamageEffectParams.KnockbackMagnitude;
+}
+
+void UAuraAbilitySystemLibrary::SetDeathImpulseDirection(FDamageEffectParams& DamageEffectParams,
+                                                         FVector ImpulseDireciton, float Magnitude)
+{
+	ImpulseDireciton.Normalize();
+	if (Magnitude != 0.f)
+		DamageEffectParams.DeathImpulseMagnitude = Magnitude;
+	DamageEffectParams.DeathImpulse = ImpulseDireciton * DamageEffectParams.DeathImpulseMagnitude;
+}
+
+void UAuraAbilitySystemLibrary::SetTargetEffectParamsASC(FDamageEffectParams& DamageEffectParams,
+	UAbilitySystemComponent* InASC)
+{
+	DamageEffectParams.TargetAbilitySystemComponent = InASC;
 }

@@ -104,7 +104,7 @@ public:
 	static void SetRadialDamageOrigin(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& RadialDamageOrigin);
 
 	/*
-	 * Gameplay Mechanics Algorithms
+	 * Gameplay Mechanics
 	 */
 	
 	UFUNCTION(BlueprintCallable, meta = (DefaultToSelf = WorldContextObject), Category = "AuraAbilitySystemLibrary|GameplayMechanics")
@@ -123,6 +123,18 @@ public:
 	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spreads, int32 NumRotators);
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static TArray<FVector> EvenlySpacedVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumVectors);
+
+	/*
+	 * Damage Effect Params
+	 */
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
+	static void SetIsRadialDamageEffectParam(UPARAM(Ref) FDamageEffectParams& DamageEffectParams, bool bIsRadial, float InnerRadius, float OuterRadius, FVector Origin);
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
+	static void SetKnockbackDirection(UPARAM(Ref) FDamageEffectParams& DamageEffectParams,FVector KnockbackDireciton, float Magnitude = 0.f);
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
+	static void SetDeathImpulseDirection(UPARAM(Ref) FDamageEffectParams& DamageEffectParams,FVector ImpulseDireciton, float Magnitude = 0.f);
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
+	static void SetTargetEffectParamsASC(UPARAM(Ref) FDamageEffectParams& DamageEffectParams,UAbilitySystemComponent* InASC);
 private:
 	static bool MakeWidgetControllerParams(APlayerController* PC, FWidgetControllerParams& OutWCParams);
 };
