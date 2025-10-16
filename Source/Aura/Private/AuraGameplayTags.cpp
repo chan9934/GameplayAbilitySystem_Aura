@@ -167,6 +167,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Player_Block_InputHeld = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Player.Block.InputHeld"), TEXT("Block Input held callback for input"));
 	GameplayTags.Player_Block_InputReleased = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Player.Block.InputReleased"), TEXT("Block Input Released callback for input"));
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("Player.Block.CursorTrace"), TEXT("Block tracing under the cursor"));
+
+	/*
+	 * Gmaeplay Cue
+	 */
+	
+	GameplayTags.GameplayCue_FireBlast = UGameplayTagsManager::Get().AddNativeGameplayTag(TEXT("GameplayCue.FireBlast"), TEXT("FireBlast GameplayCue Tag"));
+	
 	
 	
 }
