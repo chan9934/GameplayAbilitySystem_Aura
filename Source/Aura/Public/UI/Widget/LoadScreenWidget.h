@@ -19,7 +19,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UObject> WidgetController;
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void BlueprintInitializeWidget();
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
