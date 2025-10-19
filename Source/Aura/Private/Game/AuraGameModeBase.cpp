@@ -16,22 +16,34 @@ void AAuraGameModeBase::BeginPlay()
 	SetBlockingVolumeCollisionSetting();
 }
 
-void AAuraGameModeBase::SaveSlotData(const FString& SlotName, int32 SlotIndex, const FString& PlayerName)
+void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& PlayerName)
 {
-	FString NewSlotName = FString::Printf(TEXT("%s_%d"), *SlotName, SlotIndex);
+	FString NewSlotName = GetSlotNameWithIndex(SlotIndex);
 	if (UGameplayStatics::DoesSaveGameExist(NewSlotName, SlotIndex))
 	{
 		UGameplayStatics::DeleteGameInSlot(NewSlotName, SlotIndex);
 	}
 	USaveGame* SaveGameObject = UGameplayStatics::CreateSaveGameObject(LoadScreenSaveGameClass);
-	if(ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject))
+	if (ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject))
 	{
 		LoadScreenSaveGame->PlayerName = PlayerName;
 		LoadScreenSaveGame->SlotName = NewSlotName;
 		LoadScreenSaveGame->SlotIndex = SlotIndex;
+		LoadScreenSaveGame->SlotStatus = ESaveSlotStatus::Taken;
 
 		UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, NewSlotName, SlotIndex);
 	}
+}
+
+ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(int32 SlotIndex) const
+{
+	FString NewSlotName = GetSlotNameWithIndex(SlotIndex);
+	if (UGameplayStatics::DoesSaveGameExist(NewSlotName, SlotIndex))
+	{
+		return Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(NewSlotName, SlotIndex));
+	}
+	return nullptr;
+
 }
 
 void AAuraGameModeBase::SetBlockingVolumeCollisionSetting()
@@ -40,4 +52,9 @@ void AAuraGameModeBase::SetBlockingVolumeCollisionSetting()
 	{
 		Itr->GetBrushComponent()->SetCollisionResponseToChannel(ECC_ExecludePlayers, ECR_Ignore);
 	}
+}
+
+FString AAuraGameModeBase::GetSlotNameWithIndex(int32 SlotIndex) const
+{
+	return FString::Printf(TEXT("%s_%d"), *SlotName, SlotIndex);
 }

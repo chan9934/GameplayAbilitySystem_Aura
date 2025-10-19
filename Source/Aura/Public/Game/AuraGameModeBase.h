@@ -9,6 +9,7 @@
 class UAbilityInfo;
 class UCharacterClassInfo;
 class USaveGame;
+class ULoadScreenSaveGame;
 /**
  * 
  */
@@ -22,7 +23,8 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
-	void SaveSlotData(const FString& LoadSlotName, int32 SlotIndex, const FString& PlayerName);
+	void SaveSlotData(int32 SlotIndex, const FString& PlayerName);
+	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
 protected:
 	virtual void BeginPlay() override;
 
@@ -32,4 +34,6 @@ protected:
 
 private:
 	void SetBlockingVolumeCollisionSetting();
+	FString SlotName = FString("LoadSlot");
+	FString GetSlotNameWithIndex(int32 SlotIndex)const;
 };
