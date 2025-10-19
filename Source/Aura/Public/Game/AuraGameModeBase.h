@@ -8,6 +8,7 @@
 
 class UAbilityInfo;
 class UCharacterClassInfo;
+class USaveGame;
 /**
  * 
  */
@@ -21,8 +22,13 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
-	protected:
+	void SaveSlotData(const FString& LoadSlotName, int32 SlotIndex, const FString& PlayerName);
+protected:
 	virtual void BeginPlay() override;
+
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<USaveGame> LoadScreenSaveGameClass;
 
 private:
 	void SetBlockingVolumeCollisionSetting();

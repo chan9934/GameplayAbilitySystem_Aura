@@ -33,4 +33,6 @@ public:
 private:
 	UPROPERTY()
 	TMap<int32, TObjectPtr<UMVVM_LoadSlot>> LoadSlots;
+
+	FString SlotName = FString("LoadSlot");
 };
