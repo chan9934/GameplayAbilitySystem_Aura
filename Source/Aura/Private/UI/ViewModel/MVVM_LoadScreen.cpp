@@ -37,6 +37,7 @@ void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
 
 void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 Slot)
 {
+	SlotSelected.Broadcast();
 	for (const TPair<int32, TObjectPtr<UMVVM_LoadSlot>>& LoadSlot : LoadSlots)
 	{
 		if (LoadSlot.Key == Slot)
@@ -67,4 +68,9 @@ void UMVVM_LoadScreen::LoadData()
 			}
 		}
 	}
+}
+
+void UMVVM_LoadScreen::SetEmptyString(FString InEmptyString)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(EmptyString, InEmptyString);
 }
