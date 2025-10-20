@@ -24,16 +24,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
 	void SaveSlotData(int32 SlotIndex, const FString& PlayerName);
+	static void DeleteSlot(int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
 protected:
 	virtual void BeginPlay() override;
-
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;
 
 private:
 	void SetBlockingVolumeCollisionSetting();
-	FString SlotName = FString("LoadSlot");
-	FString GetSlotNameWithIndex(int32 SlotIndex)const;
+	static FString SlotName;
+	static FString GetSlotNameWithIndex(int32 SlotIndex);
 };

@@ -35,6 +35,8 @@ public:
 	void NewGameButtonPressed(int32 Slot);
 	UFUNCTION(BlueprintCallable)
 	void SelectSlotButtonPressed(int32 Slot);
+	UFUNCTION(BlueprintCallable)
+	void DeleteButtonPressed();
 
 	void LoadData();
 
@@ -45,5 +47,7 @@ public:
 private:
 	UPROPERTY()
 	TMap<int32, TObjectPtr<UMVVM_LoadSlot>> LoadSlots;
+	UPROPERTY()
+	int32 SelectedSlotIndex = INDEX_NONE;
 
 };
