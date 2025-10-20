@@ -17,7 +17,7 @@ void AAuraGameModeBase::BeginPlay()
 	SetBlockingVolumeCollisionSetting();
 }
 
-void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& PlayerName)
+void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& MapName, const FString& PlayerName)
 {
 	DeleteSlot(SlotIndex);
 	FString NewSlotName = GetSlotNameWithIndex(SlotIndex);
@@ -25,6 +25,7 @@ void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& PlayerName)
 	if (ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject))
 	{
 		LoadScreenSaveGame->PlayerName = PlayerName;
+		LoadScreenSaveGame->MapName = MapName;
 		LoadScreenSaveGame->SlotName = NewSlotName;
 		LoadScreenSaveGame->SlotIndex = SlotIndex;
 		LoadScreenSaveGame->SlotStatus = ESaveSlotStatus::Taken;
