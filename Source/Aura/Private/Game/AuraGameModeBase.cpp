@@ -13,6 +13,7 @@
 void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+	Maps.Add(DefaultMapName, DefualtMap);
 	SetBlockingVolumeCollisionSetting();
 }
 

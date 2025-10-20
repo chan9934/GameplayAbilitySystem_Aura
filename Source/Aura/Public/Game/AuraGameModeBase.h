@@ -26,6 +26,13 @@ public:
 	void SaveSlotData(int32 SlotIndex, const FString& PlayerName);
 	static void DeleteSlot(int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
+
+	UPROPERTY(EditDefaultsOnly)
+	FString DefaultMapName;
+	UPROPERTY(EditDefaultsOnly)
+	TSoftObjectPtr<UWorld> DefualtMap;
+	UPROPERTY(EditDefaultsOnly)
+	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 protected:
 	virtual void BeginPlay() override;
 
