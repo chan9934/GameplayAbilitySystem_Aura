@@ -81,6 +81,27 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(int32 SlotIndex) const
 	return nullptr;
 }
 
+ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
+{
+	if(UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance()))
+	{
+		const int32 InGameLoadSlotIndex = AuraGameInstance->LoadSlotIndex;
+		return GetSaveSlotData(InGameLoadSlotIndex);
+	}
+	return nullptr;
+}
+
+void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
+{
+	if(UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance()))
+	{
+		const int32 InGameLoadSlotIndex = AuraGameInstance->LoadSlotIndex;
+		const FString InGameLoadSlotName = AuraGameInstance->LoadSlotName;
+		AuraGameInstance->PlayerStartTag = SaveObject->PlayerStartTag;
+		UGameplayStatics::SaveGameToSlot(SaveObject,InGameLoadSlotName, InGameLoadSlotIndex);
+	}
+}
+
 void AAuraGameModeBase::TravelToMap(const FString& MapName)
 {
 	UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), Maps.FindChecked(MapName));

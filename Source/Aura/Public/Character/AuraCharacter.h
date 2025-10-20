@@ -36,6 +36,7 @@ public:
 	virtual void SetLevel_Implementation(int32 NewLevel)override;
 	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial) override;
 	virtual void HideMagicCircle_Implementation() override;
+	virtual void SaveProgress_Implementation(const FName& CheckpointTag) override;
 	/*end Player Interface*/
 
 		
