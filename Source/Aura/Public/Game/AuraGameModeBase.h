@@ -43,6 +43,7 @@ public:
 	static FString GetSlotNameWithIndex(int32 SlotIndex);
 protected:
 	virtual void BeginPlay() override;
+	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;

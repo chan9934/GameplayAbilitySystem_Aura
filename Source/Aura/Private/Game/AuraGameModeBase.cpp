@@ -44,6 +44,12 @@ void AAuraGameModeBase::BeginPlay()
 	SetBlockingVolumeCollisionSetting();
 }
 
+void AAuraGameModeBase::FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation)
+{
+	Super::FinishRestartPlayer(NewPlayer, StartRotation);
+	NewPlayer->SetControlRotation(FRotator::ZeroRotator);
+}
+
 void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& MapName, const FString& PlayerName)
 {
 	DeleteSlot(SlotIndex);
