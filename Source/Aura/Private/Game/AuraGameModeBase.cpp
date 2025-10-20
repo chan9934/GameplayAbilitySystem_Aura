@@ -54,6 +54,11 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(int32 SlotIndex) const
 
 }
 
+void AAuraGameModeBase::TravelToMap(const FString& MapName)
+{
+	UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), Maps.FindChecked(MapName));
+}
+
 void AAuraGameModeBase::SetBlockingVolumeCollisionSetting()
 {
 	for (TActorIterator<ABlockingVolume> Itr(GetWorld()); Itr; ++Itr)

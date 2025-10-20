@@ -26,6 +26,7 @@ public:
 	void SaveSlotData(int32 SlotIndex, const FString& MapName, const FString& PlayerName);
 	static void DeleteSlot(int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
+	void TravelToMap(const FString& MapName);
 
 	UPROPERTY(EditDefaultsOnly)
 	FString DefaultMapName;
