@@ -258,9 +258,13 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
-void AAuraCharacterBase::InitializeDefaultAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes()
 {
-	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	if (!bIsAppliedPrimaryAttribute)
+	{
+		ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+		bIsAppliedPrimaryAttribute = true;
+	}
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }

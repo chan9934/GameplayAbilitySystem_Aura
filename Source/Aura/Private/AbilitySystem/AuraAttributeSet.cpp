@@ -279,7 +279,7 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	}
 }
 
-void UAuraAttributeSet::LoadAttribute(AActor* SourceAvatarActor, UAbilitySystemComponent* SourceASC, float InStrength, float InIntelligence, float InResilience, float InVigor)
+void UAuraAttributeSet::LoadAttribute(ACharacter* SourceAvatarActor, UAbilitySystemComponent* SourceASC, float InStrength, float InIntelligence, float InResilience, float InVigor)
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	FGameplayEffectContextHandle EffectContext = SourceASC->MakeEffectContext();

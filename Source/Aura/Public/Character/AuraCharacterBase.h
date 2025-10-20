@@ -112,7 +112,7 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)const;
-	virtual void InitializeDefaultAttributes()const;
+	virtual void InitializeDefaultAttributes();
 
 	void AddCharacterAbilities();
 
@@ -145,6 +145,8 @@ protected:
 	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffComponent;
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDebuffNiagaraComponent> StunDebuffComponent;
+
+	bool bIsAppliedPrimaryAttribute = false;
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

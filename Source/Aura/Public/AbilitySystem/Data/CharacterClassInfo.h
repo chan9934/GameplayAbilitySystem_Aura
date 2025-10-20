@@ -42,8 +42,6 @@ public:
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInfomation;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
-	TSubclassOf<UGameplayEffect> PrimaryAttrbitues_SetByCaller;
-	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;

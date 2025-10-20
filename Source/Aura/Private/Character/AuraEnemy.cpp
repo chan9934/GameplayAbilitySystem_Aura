@@ -155,7 +155,7 @@ void AAuraEnemy::InitAbilityActorInfo()
 	OnASCRegistered.Broadcast(AbilitySystemComponent);
 }
 
-void AAuraEnemy::InitializeDefaultAttributes() const
+void AAuraEnemy::InitializeDefaultAttributes()
 {
 	UAuraAbilitySystemLibrary::InitializeDefaultAttribute(this, CharacterClass, Level, AbilitySystemComponent);
 }

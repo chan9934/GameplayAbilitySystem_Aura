@@ -48,13 +48,13 @@ void AAuraPlayerState::SetLevel(int NewLevel)
 
 	// ToDo Use AmountOfAttributePointsReward And AmountOfSpellPointsReward
 
-	OnLevelChangedDelegate.Broadcast(NewLevel);
+	OnLevelChangedDelegate.Broadcast(NewLevel, false);
 }
 
 void AAuraPlayerState::AddToLevel(int AddLevel)
 {
 	Level += AddLevel;
-	OnLevelChangedDelegate.Broadcast(AddLevel);
+	OnLevelChangedDelegate.Broadcast(AddLevel, true);
 }
 
 void AAuraPlayerState::SetXP(int NewXP)
@@ -117,7 +117,7 @@ ULevelUpInfo* AAuraPlayerState::GetLevelUpInfo() const
 
 void AAuraPlayerState::OnRep_Level(int32 OldLEvel)
 {
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 }
 
 void AAuraPlayerState::OnRep_XP(int32 OldXP)
