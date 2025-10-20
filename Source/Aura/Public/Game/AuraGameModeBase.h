@@ -34,8 +34,11 @@ public:
 	TSoftObjectPtr<UWorld> DefualtMap;
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
+	UPROPERTY(EditDefaultsOnly)
+	FName DefaultPlayerStartTag;
 
 	AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	static FString GetSlotNameWithIndex(int32 SlotIndex);
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,5 +48,4 @@ protected:
 private:
 	void SetBlockingVolumeCollisionSetting();
 	static FString SlotName;
-	static FString GetSlotNameWithIndex(int32 SlotIndex);
 };
