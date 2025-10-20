@@ -31,6 +31,8 @@ public:
 	FString MapName = FString("Defualt Map Name");
 	UPROPERTY()
 	FName PlayerStartTag;
+	UPROPERTY()
+	bool bFirstTimeLoadIn = true;
 	
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;

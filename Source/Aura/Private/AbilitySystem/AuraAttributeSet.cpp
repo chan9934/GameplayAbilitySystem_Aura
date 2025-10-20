@@ -279,6 +279,53 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	}
 }
 
+void UAuraAttributeSet::LoadAttribute(AActor* SourceAvatarActor, UAbilitySystemComponent* SourceASC, float InStrength, float InIntelligence, float InResilience, float InVigor)
+{
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	FGameplayEffectContextHandle EffectContext = SourceASC->MakeEffectContext();
+	EffectContext.AddSourceObject(SourceAvatarActor);
+
+	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName("LoadAttribute"));
+
+	Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
+
+	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	Effect->StackLimitCount = 1;
+
+	FGameplayModifierInfo Strength_ModifierInfo = FGameplayModifierInfo();
+	Strength_ModifierInfo.ModifierMagnitude = FScalableFloat(InStrength);
+	Strength_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Strength_ModifierInfo.Attribute = UAuraAttributeSet::GetStrengthAttribute();
+	Effect->Modifiers.Add(Strength_ModifierInfo);
+
+	FGameplayModifierInfo Intelligence_ModifierInfo = FGameplayModifierInfo();
+	Intelligence_ModifierInfo.ModifierMagnitude = FScalableFloat(InIntelligence);
+	Intelligence_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Intelligence_ModifierInfo.Attribute = UAuraAttributeSet::GetIntelligenceAttribute();
+	Effect->Modifiers.Add(Intelligence_ModifierInfo);
+
+	FGameplayModifierInfo Resilience_ModifierInfo = FGameplayModifierInfo();
+	Resilience_ModifierInfo.ModifierMagnitude = FScalableFloat(InResilience);
+	Resilience_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Resilience_ModifierInfo.Attribute = UAuraAttributeSet::GetResilienceAttribute();
+	Effect->Modifiers.Add(Resilience_ModifierInfo);
+
+	FGameplayModifierInfo Vigor_ModifierInfo = FGameplayModifierInfo();
+	Vigor_ModifierInfo.ModifierMagnitude = FScalableFloat(InVigor);
+	Vigor_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Vigor_ModifierInfo.Attribute = UAuraAttributeSet::GetVigorAttribute();
+	Effect->Modifiers.Add(Vigor_ModifierInfo);
+
+
+	if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
+	{
+		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(MutableSpec->GetContext().
+			Get());
+
+		SourceASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
+	}
+}
+
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
 	// Source = Causer of the effect, Target = Target of the effect (Owner of this ASC)

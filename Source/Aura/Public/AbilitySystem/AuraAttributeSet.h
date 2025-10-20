@@ -66,6 +66,8 @@ public:
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 
+	virtual void LoadAttribute(AActor* SourceAvatarActor, UAbilitySystemComponent* SourceASC, float Strength, float Intelligence, float Resilience, float Vigor);
+
 	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute>>TagsToAttributes;
 	/*
 	 * Primary Attributes
