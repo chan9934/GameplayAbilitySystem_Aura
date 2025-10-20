@@ -34,6 +34,8 @@ public:
 	TSoftObjectPtr<UWorld> DefualtMap;
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
+
+	AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 protected:
 	virtual void BeginPlay() override;
 
