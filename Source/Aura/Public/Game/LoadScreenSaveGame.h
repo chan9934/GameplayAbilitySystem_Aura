@@ -29,6 +29,8 @@ public:
 	FString PlayerName = FString("Defualt Name");
 	UPROPERTY()
 	FString MapName = FString("Defualt Map Name");
+	UPROPERTY()
+	FName PlayerStartTag;
 	
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;

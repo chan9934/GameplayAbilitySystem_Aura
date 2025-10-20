@@ -55,6 +55,7 @@ void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& MapName, co
 		LoadScreenSaveGame->MapName = MapName;
 		LoadScreenSaveGame->SlotName = NewSlotName;
 		LoadScreenSaveGame->SlotIndex = SlotIndex;
+		LoadScreenSaveGame->PlayerStartTag = DefaultPlayerStartTag;
 		LoadScreenSaveGame->SlotStatus = ESaveSlotStatus::Taken;
 
 		UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, NewSlotName, SlotIndex);

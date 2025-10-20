@@ -32,6 +32,8 @@ public:
 	FString GetPlayerName() const { return PlayerName;};
 	FString GetMapName() const { return MapName;};
 	
+	UPROPERTY()
+	FName PlayerStartTag;
 
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;
