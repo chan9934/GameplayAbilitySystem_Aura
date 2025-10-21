@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "Abilities/GameplayAbility.h"
 #include "GameFramework/SaveGame.h"
 #include "LoadScreenSaveGame.generated.h"
 
-class UGameplayAbility;
 /**
  * 
  */
@@ -39,7 +39,12 @@ struct FSavedAbility
 	FGameplayTag AbilityType = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 AbilityLevel;	
+	int32 AbilityLevel;
+
+	bool operator==(const FSavedAbility& other)const
+	{
+		return (GameplayAbility == other.GameplayAbility) &&( AbilityTag == other.AbilityTag) && (AbilityStatus == other.AbilityStatus) && (AbilitySlot == other.AbilitySlot) && (AbilityType == other.AbilityType) && (AbilityLevel == other.AbilityLevel);
+	}
 };
 UCLASS()
 class AURA_API ULoadScreenSaveGame : public USaveGame
