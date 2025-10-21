@@ -156,22 +156,46 @@ void AAuraPlayerController::CursorTrace()
 {
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get().Player_Block_CursorTrace))
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->UnHighlightActor();
+		UnHighlightActor(LastActor);
+		UnHighlightActor(ThisActor);
 		LastActor = nullptr;
 		ThisActor = nullptr;
 		return;
 	}
-	const ECollisionChannel TraceChannel = IsValid(MagicCircle) ?  ECC_ExecludePlayers:ECC_Visibility;
+	const ECollisionChannel TraceChannel = IsValid(MagicCircle) ? ECC_ExecludePlayers : ECC_Visibility;
 	GetHitResultUnderCursor(TraceChannel, false, CursorHit);
 	if (!CursorHit.bBlockingHit)return;
 	LastActor = ThisActor;
-	ThisActor = CursorHit.GetActor();
+
+	if (IsValid(CursorHit.GetActor()) && CursorHit.GetActor()->Implements<UHighlightInterface>())
+	{
+		ThisActor = CursorHit.GetActor();
+	}
+	else
+	{
+		ThisActor = nullptr;
+	}
 
 	if (LastActor != ThisActor)
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->HighlightActor();
+		UnHighlightActor(LastActor);
+		HighlightActor(ThisActor);
+	}
+}
+
+void AAuraPlayerController::HighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_HighlightActor(InActor);
+	}
+}
+
+void AAuraPlayerController::UnHighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_UnHighlightActor(InActor);
 	}
 }
 
@@ -183,7 +207,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	}
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		bTargeting = ThisActor ? true : false;
+		TargetingStatus =  (IsValid(ThisActor) && ThisActor->Implements<UEnemyInterface>()) ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy; 
 		bAutoRunning = false;
 		FollowTime = GetWorld()->GetTimeSeconds();
 	}
@@ -197,7 +221,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 	if (IsValid(GetASC()))GetASC()->AbilityInputTagReleased(InputTag);
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || (bTargeting || bShiftKeyDown))
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || ((TargetingStatus == ETargetingStatus::TargetingEnemy) || bShiftKeyDown))
 	{
 		return;
 	}
@@ -229,7 +253,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 		return;
 	}
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || bTargeting || bShiftKeyDown)
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || (TargetingStatus == ETargetingStatus::TargetingEnemy) || bShiftKeyDown)
 	{
 		if (IsValid(GetASC()))GetASC()->AbilityInputTagHeld(InputTag);
 		return;
