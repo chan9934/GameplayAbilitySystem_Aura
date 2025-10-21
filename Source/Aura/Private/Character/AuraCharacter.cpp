@@ -221,6 +221,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	// Init ability actor info for the server
 	InitAbilityActorInfo();
 	LoadProgress();
+	if (AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		AuraGameMode->LoadWorldState(GetWorld());
+	}
 }
 
 void AAuraCharacter::OnRep_PlayerState()
