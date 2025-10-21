@@ -9,6 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="55b88c35-f471-4071-a3b3-8db70230e169" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprint/CheckPoint/BP_MapEntrance.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprint/CheckPoint/BP_MapEntrance.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/Dungeon_2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Dungeon_2.umap" afterDir="false" />
     </list>
@@ -242,7 +243,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://26" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://28" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/FX/Niagara/Source/Niagara/Private/NiagaraComponentPool.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/FX/Niagara/Source/Niagara/Private/NiagaraFunctionLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/ApexDestruction/Source/ApexDestruction/Private/DestructibleComponent.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -622,7 +623,7 @@
       <workItem from="1760883530666" duration="10944000" />
       <workItem from="1760939737969" duration="632000" />
       <workItem from="1760940471760" duration="28605000" />
-      <workItem from="1761012145848" duration="29464000" />
+      <workItem from="1761012145848" duration="30115000" />
     </task>
     <servers />
   </component>
