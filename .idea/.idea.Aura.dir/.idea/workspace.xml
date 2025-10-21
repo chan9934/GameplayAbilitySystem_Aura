@@ -9,7 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="55b88c35-f471-4071-a3b3-8db70230e169" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Aura.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Game/AuraGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Game/AuraGameModeBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Aura/Private/Game/LoadScreenSaveGame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Private/Game/LoadScreenSaveGame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Checkpoint/Checkpoint.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Checkpoint/Checkpoint.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Game/AuraGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Game/AuraGameModeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Aura/Public/Game/LoadScreenSaveGame.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Aura/Public/Game/LoadScreenSaveGame.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +86,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://5" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://6" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/FX/Niagara/Source/Niagara/Private/NiagaraComponentPool.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/FX/Niagara/Source/Niagara/Private/NiagaraFunctionLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Plugins/Runtime/ApexDestruction/Source/ApexDestruction/Private/DestructibleComponent.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -121,6 +124,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/AudioSettingsEditor/AudioSettingsEditor.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/CrashDebugHelper/CrashDebugHelper.Build.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/DesktopPlatform/DesktopPlatform.Build.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/NaniteUtilities/NaniteUtilities.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/OutputLog/OutputLog.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/ShaderCompilerCommon/ShaderCompilerCommon.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Developer/TargetPlatform/TargetPlatform.Build.cs" root0="FORCE_HIGHLIGHTING" />
@@ -166,6 +170,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/DebugToolExec.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/DerivedDataBuildRemoteExecutor.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/DiffUtils.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/DragTool_BoxSelect.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/EditorDomain/BulkDataRegistryImpl.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/EditorDomain/BulkDataRegistryImpl.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/EditorLevelUtils.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -173,6 +178,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/EditorShowFlags.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/PhysicsManipulationMode.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/TargetDomain/TargetDomainUtils.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Private/VertexSnapping.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Public/Kismet2/BlueprintEditorUtils.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Public/PackageHelperFunctions.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Editor/UnrealEd/Public/Tests/AutomationEditorCommon.h" root0="FORCE_HIGHLIGHTING" />
@@ -265,8 +271,10 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/MovieSceneCapture/Private/MovieSceneCapture.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/MovieSceneTracks/Private/Evaluation/MovieSceneParticleTemplate.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Net/Core/Public/Net/Core/PushModel/PushModel.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Renderer/Renderer.Build.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Slate/Private/Framework/Docking/TabManager.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/Slate/Public/Framework/Application/AnalogCursor.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/TraceLog/standalone_epilogue.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/TraceLog/standalone_prologue.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/UMG/Private/Slate/SObjectWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.3/Engine/Source/Runtime/UMG/Public/FieldNotification/FieldNotificationDeclaration.h" root0="FORCE_HIGHLIGHTING" />
@@ -452,7 +460,7 @@
       <workItem from="1760883530666" duration="10944000" />
       <workItem from="1760939737969" duration="632000" />
       <workItem from="1760940471760" duration="28605000" />
-      <workItem from="1761012145848" duration="7040000" />
+      <workItem from="1761012145848" duration="9419000" />
     </task>
     <servers />
   </component>

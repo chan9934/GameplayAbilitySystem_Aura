@@ -68,10 +68,6 @@ struct FSavedActor
 		return ActorName == Other.ActorName;
 	}
 
-	bool IsValid()const
-	{
-		return ActorName.IsValid();
-	}
 };
 
 USTRUCT()
@@ -84,6 +80,11 @@ struct FSavedMap
 
 	UPROPERTY()
 	TArray<FSavedActor> SavedActors;
+	
+	bool IsValid()const
+	{
+		return !MapAssetName.IsEmpty();
+	}
 };
 
 UCLASS()
@@ -139,4 +140,5 @@ public:
 	TArray<FSavedMap> SavedMaps;
 
 	FSavedMap GetSavedMapWithMapName(const FString& InMapName);
+	FSavedMap& GetSavedMapReferenceWithMapName(const FString& InMapName);
 };

@@ -28,6 +28,7 @@ public:
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
 	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject);
+	void SaveWorldState(UWorld* World);
 	void TravelToMap(const FString& MapName);
 
 	UPROPERTY(EditDefaultsOnly)
