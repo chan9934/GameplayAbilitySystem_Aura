@@ -31,25 +31,66 @@ struct FSavedAbility
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilityStatus = FGameplayTag();
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilitySlot = FGameplayTag();
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FGameplayTag AbilityType = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 AbilityLevel;
 
-	bool operator==(const FSavedAbility& other)const
+	bool operator==(const FSavedAbility& Other) const
 	{
-		return (GameplayAbility == other.GameplayAbility) &&( AbilityTag == other.AbilityTag) && (AbilityStatus == other.AbilityStatus) && (AbilitySlot == other.AbilitySlot) && (AbilityType == other.AbilityType) && (AbilityLevel == other.AbilityLevel);
+		return (GameplayAbility == Other.GameplayAbility) && (AbilityTag == Other.AbilityTag) && (AbilityStatus == Other
+			.AbilityStatus) && (AbilitySlot == Other.AbilitySlot) && (AbilityType == Other.AbilityType) && (AbilityLevel
+			== Other.AbilityLevel);
 	}
 };
+
+USTRUCT()
+struct FSavedActor
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FName ActorName = FName();
+
+	UPROPERTY()
+	FTransform Transform = FTransform();
+
+	UPROPERTY()
+	TArray<uint8> Bytes;
+
+	bool operator==(const FSavedActor& Other) const
+	{
+		return ActorName == Other.ActorName;
+	}
+
+	bool IsValid()const
+	{
+		return ActorName.IsValid();
+	}
+};
+
+USTRUCT()
+struct FSavedMap
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FString MapAssetName = FString();
+
+	UPROPERTY()
+	TArray<FSavedActor> SavedActors;
+};
+
 UCLASS()
 class AURA_API ULoadScreenSaveGame : public USaveGame
 {
 	GENERATED_BODY()
+
 public:
 	UPROPERTY()
 	FString SlotName = FString();
@@ -63,7 +104,7 @@ public:
 	FName PlayerStartTag;
 	UPROPERTY()
 	bool bFirstTimeLoadIn = true;
-	
+
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESaveSlotStatus::Vacant;
 
@@ -81,7 +122,7 @@ public:
 
 	UPROPERTY()
 	int32 AttributePoints = 0;
-	
+
 	UPROPERTY()
 	float Strength = 0;
 	UPROPERTY()
@@ -93,5 +134,9 @@ public:
 
 	UPROPERTY()
 	TArray<FSavedAbility> SavedAbilities;
-	
+
+	UPROPERTY()
+	TArray<FSavedMap> SavedMaps;
+
+	FSavedMap GetSavedMapWithMapName(const FString& InMapName);
 };
