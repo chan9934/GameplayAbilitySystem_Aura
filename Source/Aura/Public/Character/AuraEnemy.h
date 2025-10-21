@@ -30,6 +30,7 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 
 	/** Highlight Interface */
+	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
 	/** end Highlight Interface */

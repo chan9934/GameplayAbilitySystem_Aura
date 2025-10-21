@@ -207,7 +207,9 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	}
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		TargetingStatus =  (IsValid(ThisActor) && ThisActor->Implements<UEnemyInterface>()) ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy; 
+		TargetingStatus = (IsValid(ThisActor) && ThisActor->Implements<UEnemyInterface>())
+			                  ? ETargetingStatus::TargetingEnemy
+			                  : ETargetingStatus::TargetingNonEnemy;
 		bAutoRunning = false;
 		FollowTime = GetWorld()->GetTimeSeconds();
 	}
@@ -221,13 +223,22 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 	if (IsValid(GetASC()))GetASC()->AbilityInputTagReleased(InputTag);
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || ((TargetingStatus == ETargetingStatus::TargetingEnemy) || bShiftKeyDown))
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || ((TargetingStatus ==
+		ETargetingStatus::TargetingEnemy) || bShiftKeyDown))
 	{
 		return;
 	}
 	APawn* ControlledPawn = GetPawn();
 	if ((GetWorld()->GetTimeSeconds() - FollowTime) <= ShortPressThreshold && ControlledPawn)
 	{
+		if (IsValid(ThisActor) && ThisActor->Implements<UHighlightInterface>())
+		{
+			IHighlightInterface::Execute_SetMoveToLocation(ThisActor, CachedDestination);
+		}
+		else
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+		}
 		if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(
 			this, ControlledPawn->GetActorLocation(), CachedDestination))
 		{
@@ -243,7 +254,6 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				bAutoRunning = true;
 			}
 		}
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 	}
 }
 
@@ -253,7 +263,8 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 		return;
 	}
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || (TargetingStatus == ETargetingStatus::TargetingEnemy) || bShiftKeyDown)
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB) || (TargetingStatus ==
+		ETargetingStatus::TargetingEnemy) || bShiftKeyDown)
 	{
 		if (IsValid(GetASC()))GetASC()->AbilityInputTagHeld(InputTag);
 		return;
