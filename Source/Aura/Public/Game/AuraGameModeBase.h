@@ -28,7 +28,7 @@ public:
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
 	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject);
-	void SaveWorldState(UWorld* World)const;
+	void SaveWorldState(UWorld* World, const FString& DestinationMapAssetName = FString())const;
 	void LoadWorldState(UWorld* World)const;
 	void TravelToMap(const FString& MapName);
 
@@ -43,6 +43,7 @@ public:
 
 	AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 	static FString GetSlotNameWithIndex(int32 SlotIndex);
+	FString GetMapNameFromMapAssetName(const FString& MapAssetName)const;
 protected:
 	virtual void BeginPlay() override;
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;

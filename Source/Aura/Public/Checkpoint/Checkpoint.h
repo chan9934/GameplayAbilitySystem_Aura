@@ -27,6 +27,13 @@ public:
 	virtual void LoadActor_Implementation()override;
 	/* end Save Interface */
 
+	
+	/* Highlight Interface*/
+	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
+	virtual void UnHighlightActor_Implementation() override;
+	virtual void HighlightActor_Implementation() override;
+	/* end Highlight Interface*/
+
 	UPROPERTY(BlueprintReadWrite, SaveGame)
 	bool bReached = false;
 
@@ -34,12 +41,6 @@ public:
 	bool bBindOverlapCallback = true;
 protected:
 	virtual void BeginPlay() override;
-
-	/* Highlight Interface*/
-	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
-	virtual void UnHighlightActor_Implementation() override;
-	virtual void HighlightActor_Implementation() override;
-	/* end Highlight Interface*/
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> MoveToComponent;
@@ -54,10 +55,10 @@ protected:
 	void HandleGlowEffects();
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
-private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
+private:
 	
 	UFUNCTION()
-	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 };
