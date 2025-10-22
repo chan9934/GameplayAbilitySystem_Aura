@@ -15,6 +15,7 @@ class UAttributeSet;
  * 
  */
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnLevelChanged, int32 /*StatValue*/, bool /*bLevelUp*/)
 UCLASS()
 class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInterface
 {
@@ -27,7 +28,7 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	FOnPlayerStatChanged OnXPChangedDelegate;
-	FOnPlayerStatChanged OnLevelChangedDelegate;
+	FOnLevelChanged OnLevelChangedDelegate;
 	FOnPlayerStatChanged OnAttributePointChangedDelegate;
 	FOnPlayerStatChanged OnSpellPointChangedDelegate;
 	
@@ -37,7 +38,7 @@ public:
 	FORCEINLINE int32 GetSpellPoints()const { return SpellPoints;}
 
 	UFUNCTION(BlueprintCallable)
-	void SetLevel(int32 NewLevel);
+	void SetLevel(int32 NewLevel, bool bIsBroadcast = true);
 	UFUNCTION(BlueprintCallable)
 	void SetXP(int32 NewXP);
 	UFUNCTION(BlueprintCallable)
@@ -45,8 +46,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetSpellPoints(int32 InPoints);
 	
-	UFUNCTION(BlueprintCallable)
-	void AddToLevel(int32 AddLevel);
 	UFUNCTION(BlueprintCallable)
 	void AddToXP(int32 AddXP);
 	UFUNCTION(BlueprintCallable)

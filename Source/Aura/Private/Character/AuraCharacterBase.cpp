@@ -61,6 +61,14 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AAuraCharacterBase, bIsBeingShocked);
 }
 
+float AAuraCharacterBase::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
+	class AController* EventInstigator, AActor* DamageCauser)
+{
+	const float DamageTaken =  Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+	return DamageTaken;
+}
+
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 {
@@ -119,6 +127,7 @@ void AAuraCharacterBase::OnRep_Burned()
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	CollisionSetting();
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()
@@ -233,6 +242,11 @@ void AAuraCharacterBase::SetIsBeingShocked_Implementation(bool bInShock)
 	bIsBeingShocked = bInShock;
 }
 
+FOnDamageSignature& AAuraCharacterBase::GetOnDamageSignature()
+{
+	return OnDamageDelegate;
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
@@ -244,9 +258,13 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gameplay
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
-void AAuraCharacterBase::InitializeDefaultAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes()
 {
-	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	if (!bIsAppliedPrimaryAttribute)
+	{
+		ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+		bIsAppliedPrimaryAttribute = true;
+	}
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
@@ -277,4 +295,15 @@ void AAuraCharacterBase::Dissolve()
 		DynamicMatInstances.Add(DynamicMatInst);
 	}
 	StartDissolveTimeline(DynamicMatInstances);
+}
+
+void AAuraCharacterBase::CollisionSetting()
+{
+	for(UActorComponent* Child : GetComponents())
+	{
+		if (UPrimitiveComponent* PrimitiveChild = Cast<UPrimitiveComponent>(Child))
+		{
+			PrimitiveChild->SetCollisionResponseToChannel(ECC_ExecludePlayers, ECR_Ignore );
+		}
+	}
 }

@@ -19,6 +19,7 @@ class UAnimMontage;
 class UDebuffNiagaraComponent;
 class UPassiveNiagaraComponent;
 
+
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
@@ -28,6 +29,7 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
 
@@ -51,9 +53,11 @@ public:
 	virtual FName TipSocketName_Implementation() override;
 	virtual bool IsBeingShocked_Implementation() override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
+	virtual FOnDamageSignature& GetOnDamageSignature()override;
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;
+	FOnDamageSignature OnDamageDelegate;
 	/* end Combat Interface*/
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -73,6 +77,7 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Burned();
 
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
@@ -88,6 +93,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName TailSocketName;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
@@ -108,7 +114,7 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)const;
-	virtual void InitializeDefaultAttributes()const;
+	virtual void InitializeDefaultAttributes();
 
 	void AddCharacterAbilities();
 
@@ -141,6 +147,8 @@ protected:
 	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffComponent;
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UDebuffNiagaraComponent> StunDebuffComponent;
+
+	bool bIsAppliedPrimaryAttribute = false;
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
@@ -160,4 +168,6 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> EffectAttachComponent;
+
+	void CollisionSetting();
 };

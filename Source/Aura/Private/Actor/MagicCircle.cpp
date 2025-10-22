@@ -11,6 +11,11 @@ AMagicCircle::AMagicCircle()
 	MagicCircleDecal->SetupAttachment(GetRootComponent());
 }
 
+void AMagicCircle::ChangeMaterial(UMaterialInterface* DecalMaterial)
+{
+	MagicCircleDecal->SetMaterial(0, DecalMaterial);
+}
+
 void AMagicCircle::BeginPlay()
 {
 	Super::BeginPlay();

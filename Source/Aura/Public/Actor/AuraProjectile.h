@@ -16,7 +16,8 @@ class AURA_API AAuraProjectile : public AActor
 
 public:
 	AAuraProjectile();
-	
+
+	UPROPERTY(BlueprintReadOnly)
 	FDamageEffectParams DamageEffectParams;
 
 	UPROPERTY(VisibleAnywhere)
@@ -29,18 +30,22 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	void OnHit();
+	UFUNCTION(BlueprintCallable)
+	virtual void OnHit();
 	virtual void Destroyed() override;
+	bool IsValidOverlap(AActor* OtherActor);
 	UFUNCTION()
-	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	                     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<USphereComponent> Sphere;
 
+	bool bHit = false;
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> LoopingSoundComponent ;
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 15.f;
-	bool bHit = false;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;
@@ -48,8 +53,6 @@ private:
 	TObjectPtr<USoundBase> ImpactSound;
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> LoopingSound;
-	UPROPERTY()
-	TObjectPtr<UAudioComponent> LoopingSoundComponent ;
 
 	FVector LocationThisFrame;
 	FVector LocationLastFrame;

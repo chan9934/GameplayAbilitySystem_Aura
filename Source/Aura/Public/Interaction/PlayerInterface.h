@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "PlayerInterface.generated.h"
+class UMaterialInterface;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
@@ -52,4 +53,12 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void SetLevel(int32 NewLevel);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void HideMagicCircle();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SaveProgress(const FName& CheckpointTag);
 };

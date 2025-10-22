@@ -34,12 +34,19 @@ public:
 	virtual int32 GetAttributePoints_Implementation() override;
 	virtual int32 GetSpellPoints_Implementation() override;
 	virtual void SetLevel_Implementation(int32 NewLevel)override;
+	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial) override;
+	virtual void HideMagicCircle_Implementation() override;
+	virtual void SaveProgress_Implementation(const FName& CheckpointTag) override;
 	/*end Player Interface*/
 
 		
 	/* Combat Interface*/
 	virtual int32 GetLevel_Implementation()const override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	/*end Combat Interface*/
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
@@ -49,6 +56,8 @@ protected:
 	virtual void OnRep_PlayerState() override;
 	virtual void OnRep_Stunned()override;
 	virtual void OnRep_Burned()override;
+
+	void LoadProgress();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
@@ -60,4 +69,5 @@ private:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastLevelUpParticles();
+
 };

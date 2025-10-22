@@ -96,7 +96,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	SetEffectProperties(Data, Props);
 
 	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(
-		Props.TargetCharacter.Get())) return;
+		Props.TargetCharacter.Get()))
+		return;
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -148,7 +149,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 			}
 
 			const FVector& KnockbackForce = UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
-			if (!KnockbackForce.IsNearlyZero(10.f))
+			if (!KnockbackForce.IsNearlyZero(1.f))
 			{
 				if (Props.TargetCharacter->Implements<UCombatInterface>())
 					ICombatInterface::Execute_Knockback(Props.TargetCharacter.Get(), KnockbackForce);
@@ -182,14 +183,16 @@ void UAuraAttributeSet::HandleIncomingXP(const FEffectProperties& Props)
 		if (NumLevelUps > 0)
 		{
 			IPlayerInterface::Execute_SetLevel(Props.SourceCharacter.Get(), NewLevel);
-			
+
 			int32 AttributePointsReward = 0;
 			int32 SpellPointsReward = 0;
 
-			for (int32 i = 0 ; i < NumLevelUps ; i++)
+			for (int32 i = 0; i < NumLevelUps; i++)
 			{
-				SpellPointsReward += IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter.Get(), CurrentLevel + i);
-				AttributePointsReward += IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter.Get(), CurrentLevel + i);
+				SpellPointsReward += IPlayerInterface::Execute_GetSpellPointsReward(
+					Props.SourceCharacter.Get(), CurrentLevel + i);
+				AttributePointsReward += IPlayerInterface::Execute_GetAttributePointsReward(
+					Props.SourceCharacter.Get(), CurrentLevel + i);
 			}
 
 			IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter.Get(), AttributePointsReward);
@@ -273,6 +276,53 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	{
 		SetMana(NewValue);
 		bTopOffMana = true;
+	}
+}
+
+void UAuraAttributeSet::LoadAttribute(ACharacter* SourceAvatarActor, UAbilitySystemComponent* SourceASC, float InStrength, float InIntelligence, float InResilience, float InVigor)
+{
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	FGameplayEffectContextHandle EffectContext = SourceASC->MakeEffectContext();
+	EffectContext.AddSourceObject(SourceAvatarActor);
+
+	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName("LoadAttribute"));
+
+	Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
+
+	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	Effect->StackLimitCount = 1;
+
+	FGameplayModifierInfo Strength_ModifierInfo = FGameplayModifierInfo();
+	Strength_ModifierInfo.ModifierMagnitude = FScalableFloat(InStrength);
+	Strength_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Strength_ModifierInfo.Attribute = UAuraAttributeSet::GetStrengthAttribute();
+	Effect->Modifiers.Add(Strength_ModifierInfo);
+
+	FGameplayModifierInfo Intelligence_ModifierInfo = FGameplayModifierInfo();
+	Intelligence_ModifierInfo.ModifierMagnitude = FScalableFloat(InIntelligence);
+	Intelligence_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Intelligence_ModifierInfo.Attribute = UAuraAttributeSet::GetIntelligenceAttribute();
+	Effect->Modifiers.Add(Intelligence_ModifierInfo);
+
+	FGameplayModifierInfo Resilience_ModifierInfo = FGameplayModifierInfo();
+	Resilience_ModifierInfo.ModifierMagnitude = FScalableFloat(InResilience);
+	Resilience_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Resilience_ModifierInfo.Attribute = UAuraAttributeSet::GetResilienceAttribute();
+	Effect->Modifiers.Add(Resilience_ModifierInfo);
+
+	FGameplayModifierInfo Vigor_ModifierInfo = FGameplayModifierInfo();
+	Vigor_ModifierInfo.ModifierMagnitude = FScalableFloat(InVigor);
+	Vigor_ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	Vigor_ModifierInfo.Attribute = UAuraAttributeSet::GetVigorAttribute();
+	Effect->Modifiers.Add(Vigor_ModifierInfo);
+
+
+	if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
+	{
+		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(MutableSpec->GetContext().
+			Get());
+
+		SourceASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 	}
 }
 

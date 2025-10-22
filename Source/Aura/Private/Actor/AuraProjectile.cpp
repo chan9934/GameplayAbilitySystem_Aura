@@ -46,7 +46,8 @@ void AAuraProjectile::BeginPlay()
 	FTimerHandle SetCollisionHandle;
 	GetWorld()->GetTimerManager().SetTimer(SetCollisionHandle, [this]()
 	                                       {
-		                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		                                       if (IsValid(Sphere))
+			                                       Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	                                       },
 	                                       0.1f, false);
 
@@ -118,14 +119,20 @@ void AAuraProjectile::Destroyed()
 	Super::Destroyed();
 }
 
+bool AAuraProjectile::IsValidOverlap(AActor* OtherActor)
+{
+	if (!DamageEffectParams.SourceAbilitySystemComponent)return false;
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor)return false;
+	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))return false;
+	return true;
+}
+
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                       const FHitResult& SweepResult)
 {
-	if (!DamageEffectParams.SourceAbilitySystemComponent)return;
-	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
-	if (SourceAvatarActor == OtherActor)return;
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))return;
+	if (!IsValidOverlap(OtherActor)) return;
 	if (!bHit)OnHit();
 	if (HasAuthority())
 	{
@@ -133,7 +140,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		{
 			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
 			DamageEffectParams.DeathImpulse = DeathImpulse;
-			const bool bKnockback = FMath::RandRange(1, 100) < DamageEffectParams.KnockbackChange;
+			const bool bKnockback = FMath::RandRange(1, 100) < DamageEffectParams.KnockbackChance;
 			if (bKnockback)
 			{
 				FRotator Rotation = GetActorRotation();
