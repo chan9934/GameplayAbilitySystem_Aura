@@ -7,6 +7,7 @@
 
 class UAbilitySystemComponent;
 class UGameplayEffect;
+class UStaticMeshComponent;
 
 UENUM(BlueprintType)
 enum class EEffectApplicationPolicy
@@ -34,6 +35,26 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> MovementSceneComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bRotates = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float RotationRate = 45.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bSinusoidalMovement = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SineAmplitude = 16.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SinePeriod = 2.f;
+
+	UFUNCTION(BlueprintCallable)
+	void StartSinusoidalMovement();
+	UFUNCTION(BlueprintCallable)
+	void StartRotation();
 
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
@@ -67,4 +88,7 @@ protected:
 
 	UPROPERTY()
 	TMap<FActiveGameplayEffectHandle, TObjectPtr<UAbilitySystemComponent>> ActiveEffectHandles;
+private:
+	float RunningTime = 0.f;
+	void ItemMovement(float DeltaTime);
 };
