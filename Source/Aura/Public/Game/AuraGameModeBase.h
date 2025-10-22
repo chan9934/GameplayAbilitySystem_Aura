@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "AuraGameModeBase.generated.h"
 
+class ULootTiers;
 class UAbilityInfo;
 class UCharacterClassInfo;
 class USaveGame;
@@ -23,6 +24,8 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
+	UPROPERTY(EditDefaultsOnly, Category = "Loot Tiers")
+	TObjectPtr<ULootTiers> LootTiers;
 	void SaveSlotData(int32 SlotIndex, const FString& PlayerName);
 	static void DeleteSlot(int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;

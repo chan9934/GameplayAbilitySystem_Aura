@@ -29,6 +29,9 @@ class AURA_API AAuraEffectActor : public AActor
 public:
 	AAuraEffectActor();
 
+	UFUNCTION(BlueprintCallable)
+	void SetActorLevel(float InLevel) {ActorLevel = InLevel;}
+
 protected:
 	virtual void BeginPlay() override;
 
