@@ -3,6 +3,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AAuraEffectActor::AAuraEffectActor()
 {
@@ -16,18 +17,51 @@ AAuraEffectActor::AAuraEffectActor()
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
+	if (IsValid(SpawnSound))
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SpawnSound, GetActorLocation());
+
+	if (bUseStartTimeline && TimelineCurve_Location && TimelineCurve_Scale)
+	{
+		FOnTimelineFloat UpdateCallback_Location;
+		FOnTimelineFloat UpdateCallback_Scale;
+		FOnTimelineEvent FinishedCallback;
+
+		UpdateCallback_Location.BindDynamic(this, &AAuraEffectActor::OnUpdatedTimeline_Location);
+		UpdateCallback_Scale.BindDynamic(this, &AAuraEffectActor::OnUpdatedTimeline_Scale);
+		FinishedCallback.BindDynamic(this, &AAuraEffectActor::OnFinishedTimeline);
+		StartTimeline.AddInterpFloat(TimelineCurve_Location, UpdateCallback_Location);
+		StartTimeline.AddInterpFloat(TimelineCurve_Scale, UpdateCallback_Scale);
+		StartTimeline.SetTimelineFinishedFunc(FinishedCallback);
+		StartTimeline.PlayFromStart();
+		bCanMove = false;
+	}
+	else
+	{
+		bCanMove = true;
+	}
 }
 
 void AAuraEffectActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (bCanMove)
+		ItemMovement(DeltaTime);
 
+	if (bUseStartTimeline)
+	{
+		StartTimeline.TickTimeline(DeltaTime);
+	}
+}
 
-	ItemMovement(DeltaTime);
+void AAuraEffectActor::Destroyed()
+{
+	Super::Destroyed();
+	if (IsValid(ConsumeSound))
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ConsumeSound, GetActorLocation());
 }
 
 void AAuraEffectActor::StartSinusoidalMovement()
-{
+	{
 	bSinusoidalMovement = true;
 }
 
@@ -134,10 +168,31 @@ void AAuraEffectActor::ItemMovement(float DeltaTime)
 		{
 			RunningTime -= SinePeriod;
 		}
-		
+
 		float SinValue = FMath::Sin((2 * PI * RunningTime) / SinePeriod);
-		
+
 		RunningTime += DeltaTime;
 		MovementSceneComponent->SetRelativeLocation(FVector(0, 0, SinValue * SineAmplitude));
 	}
+}
+
+void AAuraEffectActor::OnUpdatedTimeline_Location(float Output)
+{
+	float ZValue = Output * SpawnApex;
+	MovementSceneComponent->SetRelativeLocation(FVector(0, 0, ZValue));
+	if (GroumdImpactSound != nullptr, !bHasPlayedImpactSound && Output < 0)
+	{
+		bHasPlayedImpactSound = true;
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GroumdImpactSound, GetActorLocation());
+	}
+}
+
+void AAuraEffectActor::OnUpdatedTimeline_Scale(float Output)
+{
+	MovementSceneComponent->SetRelativeScale3D(FVector(Output, Output, Output));
+}
+
+void AAuraEffectActor::OnFinishedTimeline()
+{
+	bCanMove = true;
 }

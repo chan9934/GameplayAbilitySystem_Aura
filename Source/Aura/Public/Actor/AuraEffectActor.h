@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "ActiveGameplayEffectHandle.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
@@ -36,6 +37,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void Destroyed() override;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> MovementSceneComponent;
@@ -50,7 +52,20 @@ protected:
 	float SineAmplitude = 16.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
 	float SinePeriod = 2.f;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bUseStartTimeline = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SpawnApex = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	TObjectPtr<UCurveFloat> TimelineCurve_Location;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	TObjectPtr<UCurveFloat> TimelineCurve_Scale;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	TObjectPtr<USoundBase> SpawnSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	TObjectPtr<USoundBase> ConsumeSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	TObjectPtr<USoundBase> GroumdImpactSound;
 	UFUNCTION(BlueprintCallable)
 	void StartSinusoidalMovement();
 	UFUNCTION(BlueprintCallable)
@@ -91,4 +106,16 @@ protected:
 private:
 	float RunningTime = 0.f;
 	void ItemMovement(float DeltaTime);
+	bool bCanMove = false;
+
+	/* Timeline */
+	FTimeline StartTimeline;
+	UFUNCTION()
+	void OnUpdatedTimeline_Location(float Output);
+	UFUNCTION()
+	void OnUpdatedTimeline_Scale(float Output);
+	UFUNCTION()
+	void OnFinishedTimeline();
+
+	bool bHasPlayedImpactSound = false;
 };
