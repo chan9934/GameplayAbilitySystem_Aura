@@ -42,7 +42,11 @@ public:
 		
 	/* Combat Interface*/
 	virtual int32 GetLevel_Implementation()const override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	/*end Combat Interface*/
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;

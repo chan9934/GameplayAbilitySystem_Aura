@@ -10,6 +10,7 @@
 #include "Engine/BlockingVolume.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/PlayerStart.h"
 #include "Interaction/SaveInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -43,7 +44,7 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	Maps.Add(DefaultMapName, DefualtMap);
+	Maps.Add(DefaultMapName, DefaultMap);
 	SetBlockingVolumeCollisionSetting();
 }
 
@@ -53,7 +54,7 @@ void AAuraGameModeBase::FinishRestartPlayer(AController* NewPlayer, const FRotat
 	NewPlayer->SetControlRotation(FRotator::ZeroRotator);
 }
 
-void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& MapName, const FString& PlayerName)
+void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& PlayerName)
 {
 	DeleteSlot(SlotIndex);
 	FString NewSlotName = GetSlotNameWithIndex(SlotIndex);
@@ -61,10 +62,11 @@ void AAuraGameModeBase::SaveSlotData(int32 SlotIndex, const FString& MapName, co
 	if (ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject))
 	{
 		LoadScreenSaveGame->PlayerName = PlayerName;
-		LoadScreenSaveGame->MapName = MapName;
 		LoadScreenSaveGame->SlotName = NewSlotName;
 		LoadScreenSaveGame->SlotIndex = SlotIndex;
 		LoadScreenSaveGame->PlayerStartTag = DefaultPlayerStartTag;
+		LoadScreenSaveGame->MapAssetName = DefaultMap.ToSoftObjectPath().GetAssetName();
+		LoadScreenSaveGame->MapName = DefaultMapName;
 		LoadScreenSaveGame->SlotStatus = ESaveSlotStatus::Taken;
 
 		UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, NewSlotName, SlotIndex);
@@ -198,8 +200,8 @@ void AAuraGameModeBase::LoadWorldState(UWorld* World)const
 }
 
 void AAuraGameModeBase::TravelToMap(const FString& MapName)
-{
-	UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), Maps.FindChecked(MapName));
+	{
+		UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), Maps.FindChecked(MapName));
 }
 
 void AAuraGameModeBase::SetBlockingVolumeCollisionSetting()
@@ -227,4 +229,12 @@ FString AAuraGameModeBase::GetMapNameFromMapAssetName(const FString& MapAssetNam
 		}
 	}
 	return FString();
+}
+
+void AAuraGameModeBase::PlayerDied(ACharacter* DeadCharacter)
+{
+	ULoadScreenSaveGame* SaveGame = RetrieveInGameSaveData();
+	if (!IsValid(SaveGame))return;
+
+	UGameplayStatics::OpenLevel(DeadCharacter, FName(SaveGame->MapAssetName));
 }

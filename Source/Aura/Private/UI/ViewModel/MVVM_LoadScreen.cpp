@@ -24,7 +24,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 {
 	if (AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
 	{
-		AuraGameMode->SaveSlotData(Slot, AuraGameMode->DefaultMapName, EnteredName);
+		AuraGameMode->SaveSlotData(Slot, EnteredName);
 		LoadSlots[Slot]->SetPlayerName(EnteredName);
 		LoadSlots[Slot]->SlotStatus = ESaveSlotStatus::Taken;
 		LoadSlots[Slot]->SetMapName(AuraGameMode->DefaultMapName);

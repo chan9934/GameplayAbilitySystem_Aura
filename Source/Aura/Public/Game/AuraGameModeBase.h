@@ -23,7 +23,7 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
-	void SaveSlotData(int32 SlotIndex, const FString& MapName, const FString& PlayerName);
+	void SaveSlotData(int32 SlotIndex, const FString& PlayerName);
 	static void DeleteSlot(int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(int32 SlotIndex)const;
 	ULoadScreenSaveGame* RetrieveInGameSaveData();
@@ -35,7 +35,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	FString DefaultMapName;
 	UPROPERTY(EditDefaultsOnly)
-	TSoftObjectPtr<UWorld> DefualtMap;
+	TSoftObjectPtr<UWorld> DefaultMap;
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 	UPROPERTY(EditDefaultsOnly)
@@ -44,6 +44,8 @@ public:
 	AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 	static FString GetSlotNameWithIndex(int32 SlotIndex);
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName)const;
+
+	void PlayerDied(ACharacter* DeadCharacter);
 protected:
 	virtual void BeginPlay() override;
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
