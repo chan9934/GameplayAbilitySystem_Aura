@@ -135,6 +135,7 @@ void AAuraGameModeBase::SaveWorldState(UWorld* World, const FString& Destination
 			for (FActorIterator Itr(World); Itr; ++Itr)
 			{
 				AActor* Actor = *Itr;
+				//UE_LOG(LogAura, Warning, TEXT("SAveTest  Name : %s"), *GetNameSafe(Actor));
 				if (!IsValid(Actor) || !Actor->Implements<USaveInterface>())continue;
 				FSavedActor SavedActor;
 				SavedActor.ActorName = Actor->GetFName();
@@ -190,7 +191,7 @@ void AAuraGameModeBase::LoadWorldState(UWorld* World)const
 				{
 					Actor->SetActorTransform(SavedActor.Transform);
 				}
-				ISaveInterface::Execute_LoadActor(Actor);
+					ISaveInterface::Execute_LoadActor(Actor);
 			}
 		}
 	}

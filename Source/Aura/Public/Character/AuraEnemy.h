@@ -58,6 +58,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 5.f;
 
+	void SetLevel(int32 InLevel) {Level = InLevel;}
 protected:
 	virtual void InitAbilityActorInfo()override;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")

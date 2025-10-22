@@ -77,6 +77,7 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Burned();
 
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
